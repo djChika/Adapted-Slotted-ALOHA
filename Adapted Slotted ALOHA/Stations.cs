@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace Adapted_Slotted_ALOHA
 {
+
+
     class Stations
     {
-        public static int MaxStationsNumber { get; } = 100;
+        public static int MaxStationsNumber = 100;
         private const int MaxFramesNumber = 1000;
         private static bool[] _backlogStatus = new bool[MaxStationsNumber];
         private static int[] _backlogTime = new int[MaxStationsNumber];
         public static int[,] Frames { get; } = new int[MaxStationsNumber, MaxFramesNumber];
         private static Random _random = new Random();
+
+        public delegate void RepaintEventHandler(int[,] frames);
+        public event RepaintEventHandler OnRepaint;
 
         private static int GetPackage()
         {
@@ -25,12 +30,13 @@ namespace Adapted_Slotted_ALOHA
             if (!GetBacklogStatus(station))
             {
                 Frames[station, frame] = 1;
+                OnRepaint?.Invoke(Frames);
             }
         }
 
-        public void RandomSendPackages(int stationsNumber, int frame)
+        public void RandomSendPackages(int frame)
         {
-            for (var i = 0; i < stationsNumber; i++)
+            for (var i = 0; i < Properties.Settings.Default.NumberOfStations; i++)
             {
                 if (GetPackage() == 1)
                     SendPackage(i, frame);
@@ -89,5 +95,6 @@ namespace Adapted_Slotted_ALOHA
                     return true;
             }
         }
+
     }
 }
