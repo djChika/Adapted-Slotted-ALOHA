@@ -19,7 +19,7 @@ namespace Adapted_Slotted_ALOHA
         }
 
         List<Label> _stationsUI = new List<Label>();
-        List<Label> _packagesUI = new List<Label>();
+        List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         Server _server = new Server();
         private int currentFrame = 0;
@@ -46,18 +46,29 @@ namespace Adapted_Slotted_ALOHA
 
             tableLayoutPanel2.RowCount = numberOfStations;
             tableLayoutPanel2.ColumnCount = numberOfColums;
-            for (var i = 0; i < numberOfStations * numberOfColums; i++)
+            for (var i = 0; i < numberOfStations; i++)
             {
-                var label = new Label
+                var stationPackages = new List<Label>();
+                for (var j = 0; j < numberOfColums; j++)
                 {
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Height = 30,
-                    Margin = new Padding(0, 0, 10, 3),
-                    BackColor = Color.Transparent,
-                    TextAlign = ContentAlignment.MiddleCenter
-                };
-                _packagesUI.Add(label);
-                tableLayoutPanel2.Controls.Add(_packagesUI[i]);
+                    var label = new Label
+                    {
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Height = 30,
+                        Margin = new Padding(0, 0, 10, 3),
+                        BackColor = Color.Transparent,
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+                    stationPackages.Add(label);
+                }
+                UIPackages.Add(stationPackages);
+            }
+            for (int ii = 0; ii < numberOfStations; ii++)
+            {
+                for (int jj = 0; jj < numberOfColums; jj++)
+                {
+                    tableLayoutPanel2.Controls.Add(UIPackages[ii][jj]);
+                }
             }
         }
 
@@ -80,11 +91,29 @@ namespace Adapted_Slotted_ALOHA
         private void NextButton_Click(object sender, EventArgs e)
         {
             currentFrame++;
+            RepaintUI();
+        }
+
+        private void RepaintColumn(int selectedColumn, int selectedFrame)
+        {
+            for (int j = 0; j < Default.NumberOfStations; j++)
+            {
+                if (_server.Frames[j, selectedFrame] == 0)
+                {
+                    UIPackages[j][selectedColumn].Text = j + "" + selectedFrame;
+                }
+            }
         }
 
         private void RepaintUI()
         {
-
+            var selectedFrame = currentFrame;
+            for (int i = 0; i < Default.NumberOfColums; i++)
+            {
+                if (selectedFrame >= 0)
+                    RepaintColumn(i, selectedFrame);
+                selectedFrame--;
+            }
         }
 
         private void debugButton_Click(object sender, EventArgs e)
