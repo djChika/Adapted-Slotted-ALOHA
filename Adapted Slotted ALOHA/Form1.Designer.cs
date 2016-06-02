@@ -1,6 +1,6 @@
 ﻿namespace Adapted_Slotted_ALOHA
 {
-    partial class Form1
+    internal partial class Form1
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -33,6 +33,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.debugButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,6 +81,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.debugButton);
             this.groupBox1.Controls.Add(this.StartButton);
             this.groupBox1.Controls.Add(this.NextButton);
             this.groupBox1.Location = new System.Drawing.Point(523, 12);
@@ -104,6 +106,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(56, 341);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // debugButton
+            // 
+            this.debugButton.Location = new System.Drawing.Point(7, 159);
+            this.debugButton.Name = "debugButton";
+            this.debugButton.Size = new System.Drawing.Size(84, 23);
+            this.debugButton.TabIndex = 2;
+            this.debugButton.Text = "Debug";
+            this.debugButton.UseVisualStyleBackColor = true;
+            this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -126,6 +138,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button debugButton;
     }
 }
 
