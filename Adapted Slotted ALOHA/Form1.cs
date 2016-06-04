@@ -105,25 +105,20 @@ namespace Adapted_Slotted_ALOHA
             currentFrame++;
         }
 
-        private void RepaintColumn(int selectedColumn, int selectedFrame)
+        private void RepaintPackages(int selectedFrame)
         {
-            for (int j = 0; j < Default.NumberOfStations; j++)
-            {
-                UIPackages[j][selectedColumn].BackColor = Color.Transparent;
-                if (_server.IsPackageSent(j, selectedFrame))
+            for (var i = 0; i < Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
+                for (int j = 0; j < Default.NumberOfStations; j++)
                 {
-                    UIPackages[j][selectedColumn].BackColor = Color.Aquamarine;
+                    UIPackages[j][i].BackColor = Color.Transparent;
+                    if (_server.IsPackageSent(j, selectedFrame))
+                        UIPackages[j][i].BackColor = Color.Aquamarine;
                 }
-            }
         }
 
         private void RepaintUI()
         {
-            int selectedFrame = currentFrame;
-            for (var i = 0; i < Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
-            {
-                RepaintColumn(i, selectedFrame);
-            }
+            RepaintPackages(currentFrame);
         }
 
         private void debugButton_Click(object sender, EventArgs e)
