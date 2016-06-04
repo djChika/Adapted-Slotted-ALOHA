@@ -10,7 +10,7 @@ namespace Adapted_Slotted_ALOHA
     {
         private bool _backlogStatus;
         private int _backlogTime;
-        private Random _random = new Random();
+        private static Random _random = new Random();
 
         public int SendPackage()
         {

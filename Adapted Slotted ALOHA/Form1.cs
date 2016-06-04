@@ -94,7 +94,7 @@ namespace Adapted_Slotted_ALOHA
         {
             for (int i = 0; i < Default.NumberOfStations; i++)
             {
-                _server.Frames[i, currentFrame] = _stations[0].GetNewPackage();
+                _server.Frames[i, currentFrame] = _stations[i].GetNewPackage();
             }
         }
 
