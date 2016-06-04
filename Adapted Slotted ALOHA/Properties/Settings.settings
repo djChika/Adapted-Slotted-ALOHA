@@ -3,10 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="NumberOfStations" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">5</Value>
+      <Value Profile="(Default)">8</Value>
     </Setting>
     <Setting Name="NumberOfColums" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">4</Value>
+      <Value Profile="(Default)">11</Value>
+    </Setting>
+    <Setting Name="WidthOfColums" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">40</Value>
     </Setting>
   </Settings>
 </SettingsFile>

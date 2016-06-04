@@ -25,7 +25,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
         public int NumberOfStations {
             get {
                 return ((int)(this["NumberOfStations"]));
@@ -37,13 +37,25 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        [global::System.Configuration.DefaultSettingValueAttribute("11")]
         public int NumberOfColums {
             get {
                 return ((int)(this["NumberOfColums"]));
             }
             set {
                 this["NumberOfColums"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int WidthOfColums {
+            get {
+                return ((int)(this["WidthOfColums"]));
+            }
+            set {
+                this["WidthOfColums"] = value;
             }
         }
     }

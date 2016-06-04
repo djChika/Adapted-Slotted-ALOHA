@@ -17,9 +17,9 @@ namespace Adapted_Slotted_ALOHA
             return !GetBacklogStatus() ? 1 : 0;
         }
 
-        public int RandomSendPackages()
+        public int GetNewPackage()
         {
-            return !GetBacklogStatus() ? _random.Next(2) : 0;
+            return !GetBacklogStatus() ? _random.Next(2) : GetBacklogTime();
         }
 
         public void EnableBacklogStatus()

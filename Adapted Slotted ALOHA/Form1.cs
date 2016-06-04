@@ -16,13 +16,14 @@ namespace Adapted_Slotted_ALOHA
             InitializeComponent();
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
+            tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
         }
 
         List<Label> _stationsUI = new List<Label>();
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         Server _server = new Server();
-        private int currentFrame = 0;
+        private int currentFrame;
 
         private void InitializeUI(int numberOfStations, int numberOfColums)
         {
@@ -44,8 +45,8 @@ namespace Adapted_Slotted_ALOHA
 
             }
 
-            tableLayoutPanel2.RowCount = numberOfStations;
-            tableLayoutPanel2.ColumnCount = numberOfColums;
+            tableLayoutPanel3.RowCount = numberOfStations;
+            tableLayoutPanel3.ColumnCount = numberOfColums;
             for (var i = 0; i < numberOfStations; i++)
             {
                 var stationPackages = new List<Label>();
@@ -55,6 +56,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         BorderStyle = BorderStyle.FixedSingle,
                         Height = 30,
+                        Width = Default.WidthOfColums,
                         Margin = new Padding(0, 0, 10, 3),
                         BackColor = Color.Transparent,
                         TextAlign = ContentAlignment.MiddleCenter
@@ -63,11 +65,11 @@ namespace Adapted_Slotted_ALOHA
                 }
                 UIPackages.Add(stationPackages);
             }
-            for (int ii = 0; ii < numberOfStations; ii++)
+            for (var ii = 0; ii < numberOfStations; ii++)
             {
-                for (int jj = 0; jj < numberOfColums; jj++)
+                for (var jj = 0; jj < numberOfColums; jj++)
                 {
-                    tableLayoutPanel2.Controls.Add(UIPackages[ii][jj]);
+                    tableLayoutPanel3.Controls.Add(UIPackages[ii][jj]);
                 }
             }
         }
@@ -88,37 +90,51 @@ namespace Adapted_Slotted_ALOHA
             RepaintUI();
         }
 
+        private void RandomSendPackages()
+        {
+            for (int i = 0; i < Default.NumberOfStations; i++)
+            {
+                _server.Frames[i, currentFrame] = _stations[0].GetNewPackage();
+            }
+        }
+
         private void NextButton_Click(object sender, EventArgs e)
         {
-            currentFrame++;
+            RandomSendPackages();
             RepaintUI();
+            currentFrame++;
         }
 
         private void RepaintColumn(int selectedColumn, int selectedFrame)
         {
             for (int j = 0; j < Default.NumberOfStations; j++)
             {
-                if (_server.Frames[j, selectedFrame] == 0)
+                UIPackages[j][selectedColumn].BackColor = Color.Transparent;
+                if (_server.IsPackageSent(j, selectedFrame))
                 {
-                    UIPackages[j][selectedColumn].Text = j + "" + selectedFrame;
+                    UIPackages[j][selectedColumn].BackColor = Color.Aquamarine;
                 }
             }
         }
 
         private void RepaintUI()
         {
-            var selectedFrame = currentFrame;
-            for (int i = 0; i < Default.NumberOfColums; i++)
+            int selectedFrame = currentFrame;
+            for (var i = 0; i < Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
             {
-                if (selectedFrame >= 0)
-                    RepaintColumn(i, selectedFrame);
-                selectedFrame--;
+                RepaintColumn(i, selectedFrame);
             }
         }
 
         private void debugButton_Click(object sender, EventArgs e)
         {
-            RepaintUI();
+            for (int i = 0; i < Default.NumberOfStations; i++)
+            {
+                for (int j = 0; j < currentFrame + 1; j++)
+                {
+                    _logger.Debug($"Frames[{i}][{j}]={_server.Frames[i, j]}");
+                }
+            }
         }
     }
 }

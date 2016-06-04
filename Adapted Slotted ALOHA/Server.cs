@@ -32,5 +32,10 @@ namespace Adapted_Slotted_ALOHA
                     return true;
             }
         }
+
+        public bool IsPackageSent(int station, int frame)
+        {
+            return Frames[station, frame] == 1;
+        }
     }
 }
