@@ -56,11 +56,16 @@ namespace Adapted_Slotted_ALOHA
 
         public int Package(double estimation)
         {
-            if (IsAllow(estimation))
-            {
-                return IsPackageExist() && !IsBacklogged() ? _package : 0;
-            }
-            GenerateBacklogTime();
+            if (IsPackageExist() && !IsBacklogged())
+                if (IsAllow(estimation))
+                {
+                    return _package;
+                }
+                else
+                {
+                    GenerateBacklogTime();
+                }
+
             return 0;
         }
 
