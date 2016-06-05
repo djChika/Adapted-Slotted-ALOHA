@@ -25,7 +25,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int NumberOfStations {
             get {
                 return ((int)(this["NumberOfStations"]));
@@ -68,6 +68,18 @@ namespace Adapted_Slotted_ALOHA.Properties {
             }
             set {
                 this["IsManualModeEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool stop {
+            get {
+                return ((bool)(this["stop"]));
+            }
+            set {
+                this["stop"] = value;
             }
         }
     }

@@ -4,13 +4,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Adapted_Slotted_ALOHA.Properties;
 
 namespace Adapted_Slotted_ALOHA
 {
     internal class Server
     {
-        public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 1000];
+        public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 10000];
         public int FramesCounter { get; set; }
         public void IncreaseFrameCounter()
         {

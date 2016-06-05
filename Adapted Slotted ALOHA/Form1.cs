@@ -17,15 +17,15 @@ namespace Adapted_Slotted_ALOHA
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
-            InitializeUI(Default.NumberOfStations, Default.NumberOfColums);
-            CreateStations(Default.NumberOfStations);
+            label1.Text = "";
+            label2.Text = "";
         }
 
         List<Label> _stationsUI = new List<Label>();
         List<Label> UIBackloggedPackages = new List<Label>();
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
-        Server _server = new Server();
+        private Server _server;
 
         private void InitializeUI(int numberOfStations, int numberOfColums)
         {
@@ -48,6 +48,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         _stations[i1].GivePackage();
                         _stations[i1].GenerateBacklogTime();
+                        UIBackloggedPackages[i1].BackColor=Color.DarkCyan;
                         UpdateBackloggedText();
                     }
                 };
@@ -100,13 +101,14 @@ namespace Adapted_Slotted_ALOHA
             }
         }
 
-        private void CreateStations(int numberOfStations)
+        private void CreateStationsAndServer(int numberOfStations)
         {
             for (var i = 0; i < numberOfStations; i++)
             {
                 var station = new Station();
                 _stations.Add(station);
             }
+            _server = new Server();
         }
 
         private void GeneratePackages()
@@ -157,15 +159,10 @@ namespace Adapted_Slotted_ALOHA
                     if (_server.IsPackageSent(i, _server.FramesCounter))
                     {
                         _stations[i].GenerateBacklogTime();
-                        UIBackloggedPackages[i].BackColor = Color.DarkRed;
+                        UIBackloggedPackages[i].BackColor = Color.IndianRed;
                     }
                 _server.CheckEstimationAfterConflict();
             }
-        }
-
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            GeneratePackages();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -192,32 +189,50 @@ namespace Adapted_Slotted_ALOHA
                     UIPackages[j][i].Text = selectedFrame.ToString();
                 }
         }
-        
+
         private void UpdateBackloggedText()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
             {
+                _stationsUI[i].BackColor = Color.Empty;
                 UIBackloggedPackages[i].Text = "";
                 if (_stations[i].IsPackageExist())
                 {
                     UIBackloggedPackages[i].Text = _stations[i].BacklogTime().ToString();
-                    if (_stations[i].BacklogTime() == 0)
+                    if (_stations[i].BacklogTime() == 0 && _stations[i].IsAllow(_server.Estimation))
                     {
-                        UIBackloggedPackages[i].BackColor = Color.Cyan;
+                        _stationsUI[i].BackColor = Color.Green;
                     }
                 }
             }
         }
 
-        private void debugButton_Click(object sender, EventArgs e)
+        private void стартToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
-            {
-                for (var j = 0; j < _server.FramesCounter; j++)
-                {
-                    _logger.Debug($"Frames[{i}][{j}]={_server.Frames[i, j]}");
-                }
-            }
+            NextButton.Enabled = true;
+            сбросToolStripMenuItem.Enabled = true;
+            стартToolStripMenuItem.Enabled = false;
+            InitializeUI(Default.NumberOfStations, Default.NumberOfColums);
+            CreateStationsAndServer(Default.NumberOfStations);
+        }
+
+        private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NextButton.Enabled = false;
+            стартToolStripMenuItem.Enabled = true;
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel2.Controls.Clear();
+            tableLayoutPanel3.Controls.Clear();
+            _stations.Clear();
+            _stationsUI.Clear();
+            UIBackloggedPackages.Clear();
+            UIPackages.Clear();
+            _server = null;
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

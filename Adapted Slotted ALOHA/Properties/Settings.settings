@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="NumberOfStations" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">8</Value>
+      <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="NumberOfColums" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">11</Value>
@@ -13,6 +13,9 @@
     </Setting>
     <Setting Name="IsManualModeEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="stop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
