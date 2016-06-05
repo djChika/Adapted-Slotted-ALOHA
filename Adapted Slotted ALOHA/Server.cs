@@ -8,11 +8,11 @@ using Adapted_Slotted_ALOHA.Properties;
 
 namespace Adapted_Slotted_ALOHA
 {
-    class Server
+    internal class Server
     {
         public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 1000];
 
-        public bool CheckCollision(int frame)
+        public bool IsCollision(int frame)
         {
             var collision = 0;
             for (var i = 0; i < Settings.Default.NumberOfStations; i++)

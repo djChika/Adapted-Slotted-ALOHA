@@ -17,9 +17,12 @@ namespace Adapted_Slotted_ALOHA
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
+            InitializeUI(Default.NumberOfStations, Default.NumberOfColums);
+            CreateStations(Default.NumberOfStations);
         }
 
         List<Label> _stationsUI = new List<Label>();
+        List<Label> UINewPackages = new List<Label>();
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         Server _server = new Server();
@@ -38,10 +41,23 @@ namespace Adapted_Slotted_ALOHA
                     BackColor = Color.Gray,
                     TextAlign = ContentAlignment.MiddleCenter
                 };
-                var i1 = i;
-                label.Click += delegate { _server.Frames[i1, currentFrame] = _stations[i1].SendPackage(); };
                 _stationsUI.Add(label);
                 tableLayoutPanel1.Controls.Add(_stationsUI[i]);
+
+            }
+
+            tableLayoutPanel2.RowCount = numberOfStations;
+            for (var i = 0; i < numberOfStations; i++)
+            {
+                var label = new Label
+                {
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Height = 30,
+                    Margin = new Padding(0, 0, 3, 3),
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                UINewPackages.Add(label);
+                tableLayoutPanel2.Controls.Add(UINewPackages[i]);
 
             }
 
@@ -83,49 +99,95 @@ namespace Adapted_Slotted_ALOHA
             }
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
+        private void GeneratePackages()
         {
-            InitializeUI(Default.NumberOfStations, Default.NumberOfColums);
-            CreateStations(Default.NumberOfStations);
-            RepaintUI();
+            for (var i = 0; i < Default.NumberOfStations; i++)
+            {
+                if (!_stations[i].IsPackageExist())
+                {
+                    _stations[i].GeneratePackage();
+                    _stations[i].GenerateBacklogTime();
+                }
+            }
+            RepaintBackloggedPackages();
         }
 
-        private void RandomSendPackages()
+        private void SendPackages()
         {
-            for (int i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Default.NumberOfStations; i++)
+                _server.Frames[i, currentFrame] = _stations[i].Package();
+            RepaintPackages(currentFrame);
+        }
+
+        private void DecreaseBacklogTimers()
+        {
+            for (var i = 0; i < Default.NumberOfStations; i++)
+                _stations[i].DecreaseBacklogTime();
+        }
+
+        private void CheckCollision()
+        {
+            if (!_server.IsCollision(currentFrame))
             {
-                _server.Frames[i, currentFrame] = _stations[i].GetNewPackage();
+                for (var i = 0; i < Default.NumberOfStations; i++)
+                    if (_server.IsPackageSent(i, currentFrame))
+                        _stations[i].DestroyPackage();
             }
+            else if (_server.IsCollision(currentFrame))
+                for (var i = 0; i < Default.NumberOfStations; i++)
+                {
+                    if (_server.IsPackageSent(i, currentFrame))
+                        _stations[i].GenerateBacklogTime();
+                }
+            RepaintBackloggedPackages();
+        }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            GeneratePackages();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            RandomSendPackages();
-            RepaintUI();
+            SendPackages();
+            CheckCollision();
+            DecreaseBacklogTimers();
+            GeneratePackages();
             currentFrame++;
         }
 
         private void RepaintPackages(int selectedFrame)
         {
             for (var i = 0; i < Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
-                for (int j = 0; j < Default.NumberOfStations; j++)
+                for (var j = 0; j < Default.NumberOfStations; j++)
                 {
                     UIPackages[j][i].BackColor = Color.Transparent;
                     if (_server.IsPackageSent(j, selectedFrame))
-                        UIPackages[j][i].BackColor = Color.Aquamarine;
+                    {
+                        UIPackages[j][i].BackColor = _server.IsCollision(selectedFrame) ? Color.DarkRed : Color.LimeGreen;
+                    }
+                    UIPackages[j][i].Text = selectedFrame.ToString();
                 }
         }
 
-        private void RepaintUI()
+        private void RepaintBackloggedPackages()
         {
-            RepaintPackages(currentFrame);
+            for (var i = 0; i < Default.NumberOfStations; i++)
+            {
+                UINewPackages[i].BackColor = Color.Transparent;
+                UINewPackages[i].Text = "";
+                if (_stations[i].IsPackageExist())
+                {
+                    UINewPackages[i].Text = _stations[i].BacklogTime().ToString();
+                }
+            }
         }
 
         private void debugButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Default.NumberOfStations; i++)
             {
-                for (int j = 0; j < currentFrame + 1; j++)
+                for (var j = 0; j < currentFrame; j++)
                 {
                     _logger.Debug($"Frames[{i}][{j}]={_server.Frames[i, j]}");
                 }

@@ -8,40 +8,52 @@ namespace Adapted_Slotted_ALOHA
 {
     internal class Station
     {
-        private bool _backlogStatus;
+        private int _package;
         private int _backlogTime;
-        private static Random _random = new Random();
+        private static readonly Random Random = new Random();
 
-        public int SendPackage()
+        public void GeneratePackage()
         {
-            return !GetBacklogStatus() ? 1 : 0;
+            _package = Random.Next(10);
         }
 
-        public int GetNewPackage()
+        public void GenerateBacklogTime()
         {
-            return !GetBacklogStatus() ? _random.Next(2) : GetBacklogTime();
+            if (IsPackageExist())
+                _backlogTime = Random.Next(10);
         }
 
-        public void EnableBacklogStatus()
+        public bool IsPackageExist()
         {
-            _backlogStatus = true;
-            _backlogTime = _random.Next(10);
+            return _package == 1;
         }
 
-        public void DisableBacklogStatus()
+        public void DecreaseBacklogTime()
         {
-            _backlogStatus = false;
-            _backlogTime = 0;
+            if (IsBacklogged())
+                _backlogTime--;
         }
 
-        public bool GetBacklogStatus()
-        {
-            return _backlogStatus;
-        }
-
-        public int GetBacklogTime()
+        public int BacklogTime()
         {
             return _backlogTime;
+        }
+
+        private bool IsBacklogged()
+        {
+            return _backlogTime != 0;
+        }
+
+        public int Package()
+        {
+            if (IsPackageExist() && !IsBacklogged())
+                return _package;
+            return 0;
+        }
+
+        public void DestroyPackage()
+        {
+            _package = 0;
         }
     }
 }
