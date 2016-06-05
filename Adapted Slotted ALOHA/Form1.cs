@@ -127,7 +127,7 @@ namespace Adapted_Slotted_ALOHA
         private void SendPackages()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
-                _server.Frames[i, _server.FramesCounter] = _stations[i].Package();
+                _server.Frames[i, _server.FramesCounter] = _stations[i].Package(_server.Estimation);
             RepaintPackages(_server.FramesCounter);
         }
 

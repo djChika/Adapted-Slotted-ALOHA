@@ -19,7 +19,7 @@ namespace Adapted_Slotted_ALOHA
 
         public void GeneratePackage()
         {
-            _package = Random.Next(10);
+            _package = Random.Next(20);
         }
 
         public void GenerateBacklogTime()
@@ -49,10 +49,18 @@ namespace Adapted_Slotted_ALOHA
             return _backlogTime != 0;
         }
 
-        public int Package()
+        public bool IsAllow(double estimation)
         {
-            if (IsPackageExist() && !IsBacklogged())
-                return _package;
+            return 1 / estimation >= 1;
+        }
+
+        public int Package(double estimation)
+        {
+            if (IsAllow(estimation))
+            {
+                return IsPackageExist() && !IsBacklogged() ? _package : 0;
+            }
+            GenerateBacklogTime();
             return 0;
         }
 
