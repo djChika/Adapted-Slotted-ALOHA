@@ -41,7 +41,7 @@
             // StartButton
             // 
             this.StartButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.StartButton.Location = new System.Drawing.Point(6, 310);
+            this.StartButton.Location = new System.Drawing.Point(13, 310);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(85, 23);
             this.StartButton.TabIndex = 0;
@@ -52,7 +52,7 @@
             // NextButton
             // 
             this.NextButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.NextButton.Location = new System.Drawing.Point(6, 281);
+            this.NextButton.Location = new System.Drawing.Point(13, 281);
             this.NextButton.Name = "NextButton";
             this.NextButton.Size = new System.Drawing.Size(85, 23);
             this.NextButton.TabIndex = 1;
@@ -74,7 +74,7 @@
             this.tableLayoutPanel3.Padding = new System.Windows.Forms.Padding(3, 5, 0, 0);
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(564, 341);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(559, 341);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // groupBox1
@@ -84,9 +84,9 @@
             this.groupBox1.Controls.Add(this.debugButton);
             this.groupBox1.Controls.Add(this.StartButton);
             this.groupBox1.Controls.Add(this.NextButton);
-            this.groupBox1.Location = new System.Drawing.Point(714, 12);
+            this.groupBox1.Location = new System.Drawing.Point(709, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(97, 341);
+            this.groupBox1.Size = new System.Drawing.Size(110, 341);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Info";
@@ -136,13 +136,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 365);
+            this.ClientSize = new System.Drawing.Size(831, 365);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tableLayoutPanel3);
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Adapted Slotted ALOHA Simulator";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

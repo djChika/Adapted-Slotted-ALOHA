@@ -26,7 +26,6 @@ namespace Adapted_Slotted_ALOHA
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         Server _server = new Server();
-        private int currentFrame;
 
         private void InitializeUI(int numberOfStations, int numberOfColums)
         {
@@ -38,8 +37,19 @@ namespace Adapted_Slotted_ALOHA
                     BorderStyle = BorderStyle.Fixed3D,
                     Height = 30,
                     Margin = new Padding(0, 0, 3, 3),
-                    BackColor = Color.Gray,
-                    TextAlign = ContentAlignment.MiddleCenter
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font(Font, FontStyle.Bold),
+                    Text = $"#{i}"
+                };
+                var i1 = i;
+                label.Click += delegate
+                {
+                    if (Default.IsManualModeEnabled && !_stations[i1].IsPackageExist())
+                    {
+                        _stations[i1].GivePackage();
+                        _stations[i1].GenerateBacklogTime();
+                        UpdateBackloggedText();
+                    }
                 };
                 _stationsUI.Add(label);
                 tableLayoutPanel1.Controls.Add(_stationsUI[i]);
@@ -106,17 +116,19 @@ namespace Adapted_Slotted_ALOHA
                 if (!_stations[i].IsPackageExist())
                 {
                     _stations[i].GeneratePackage();
+                    if (_stations[i].IsPackageExist())
+                        UINewPackages[i].BackColor = Color.DarkCyan;
                     _stations[i].GenerateBacklogTime();
                 }
             }
-            RepaintBackloggedPackages();
+            UpdateBackloggedText();
         }
 
         private void SendPackages()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
-                _server.Frames[i, currentFrame] = _stations[i].Package();
-            RepaintPackages(currentFrame);
+                _server.Frames[i, _server.FramesCounter] = _stations[i].Package();
+            RepaintPackages(_server.FramesCounter);
         }
 
         private void DecreaseBacklogTimers()
@@ -127,19 +139,26 @@ namespace Adapted_Slotted_ALOHA
 
         private void CheckCollision()
         {
-            if (!_server.IsCollision(currentFrame))
+            if (!_server.IsCollision(_server.FramesCounter))
             {
                 for (var i = 0; i < Default.NumberOfStations; i++)
-                    if (_server.IsPackageSent(i, currentFrame))
+                    if (_server.IsPackageSent(i, _server.FramesCounter))
+                    {
                         _stations[i].DestroyPackage();
+                        UINewPackages[i].BackColor = Color.Transparent;
+                    }
             }
-            else if (_server.IsCollision(currentFrame))
+            else if (_server.IsCollision(_server.FramesCounter))
                 for (var i = 0; i < Default.NumberOfStations; i++)
                 {
-                    if (_server.IsPackageSent(i, currentFrame))
+                    if (_server.IsPackageSent(i, _server.FramesCounter))
+                    {
                         _stations[i].GenerateBacklogTime();
+                        UINewPackages[i].BackColor = Color.DarkRed;
+                    }
+
                 }
-            RepaintBackloggedPackages();
+            UpdateBackloggedText();
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -153,7 +172,7 @@ namespace Adapted_Slotted_ALOHA
             CheckCollision();
             DecreaseBacklogTimers();
             GeneratePackages();
-            currentFrame++;
+            _server.IncreaseFrameCounter();
         }
 
         private void RepaintPackages(int selectedFrame)
@@ -170,15 +189,18 @@ namespace Adapted_Slotted_ALOHA
                 }
         }
 
-        private void RepaintBackloggedPackages()
+        private void UpdateBackloggedText()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
             {
-                UINewPackages[i].BackColor = Color.Transparent;
                 UINewPackages[i].Text = "";
                 if (_stations[i].IsPackageExist())
                 {
                     UINewPackages[i].Text = _stations[i].BacklogTime().ToString();
+                    if (_stations[i].BacklogTime() == 0)
+                    {
+                        UINewPackages[i].BackColor = Color.Cyan;
+                    }
                 }
             }
         }
@@ -187,7 +209,7 @@ namespace Adapted_Slotted_ALOHA
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
             {
-                for (var j = 0; j < currentFrame; j++)
+                for (var j = 0; j < _server.FramesCounter; j++)
                 {
                     _logger.Debug($"Frames[{i}][{j}]={_server.Frames[i, j]}");
                 }

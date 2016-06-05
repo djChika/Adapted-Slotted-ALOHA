@@ -12,6 +12,11 @@ namespace Adapted_Slotted_ALOHA
         private int _backlogTime;
         private static readonly Random Random = new Random();
 
+        public void GivePackage()
+        {
+            _package = 1;
+        }
+
         public void GeneratePackage()
         {
             _package = Random.Next(10);

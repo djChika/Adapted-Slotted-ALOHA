@@ -11,6 +11,7 @@ namespace Adapted_Slotted_ALOHA
     internal class Server
     {
         public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 1000];
+        public int FramesCounter { get; set; }
 
         public bool IsCollision(int frame)
         {
@@ -36,6 +37,11 @@ namespace Adapted_Slotted_ALOHA
         public bool IsPackageSent(int station, int frame)
         {
             return Frames[station, frame] == 1;
+        }
+
+        public void IncreaseFrameCounter()
+        {
+            FramesCounter++;
         }
     }
 }

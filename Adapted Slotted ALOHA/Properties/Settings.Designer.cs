@@ -58,5 +58,17 @@ namespace Adapted_Slotted_ALOHA.Properties {
                 this["WidthOfColums"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsManualModeEnabled {
+            get {
+                return ((bool)(this["IsManualModeEnabled"]));
+            }
+            set {
+                this["IsManualModeEnabled"] = value;
+            }
+        }
     }
 }
