@@ -147,17 +147,18 @@ namespace Adapted_Slotted_ALOHA
                         _stations[i].DestroyPackage();
                         UINewPackages[i].BackColor = Color.Transparent;
                     }
+                _server.CheckEstimationAfterSuccessful();
             }
             else if (_server.IsCollision(_server.FramesCounter))
+            {
                 for (var i = 0; i < Default.NumberOfStations; i++)
-                {
                     if (_server.IsPackageSent(i, _server.FramesCounter))
                     {
                         _stations[i].GenerateBacklogTime();
                         UINewPackages[i].BackColor = Color.DarkRed;
                     }
-
-                }
+                _server.CheckEstimationAfterConflict();
+            }
             UpdateBackloggedText();
         }
 
@@ -173,6 +174,8 @@ namespace Adapted_Slotted_ALOHA
             DecreaseBacklogTimers();
             GeneratePackages();
             _server.IncreaseFrameCounter();
+            label1.Text = "New: " + _server.Estimation;
+            label2.Text = "Prev.: " + _server.PreviousEstimation;
         }
 
         private void RepaintPackages(int selectedFrame)

@@ -12,6 +12,10 @@ namespace Adapted_Slotted_ALOHA
     {
         public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 1000];
         public int FramesCounter { get; set; }
+        public void IncreaseFrameCounter()
+        {
+            FramesCounter++;
+        }
 
         public bool IsCollision(int frame)
         {
@@ -39,9 +43,22 @@ namespace Adapted_Slotted_ALOHA
             return Frames[station, frame] == 1;
         }
 
-        public void IncreaseFrameCounter()
+        public double PreviousEstimation { get; set; } = 0;
+        public double Estimation { get; set; } = 0;
+        public double Lambda { get; set; } = 0.2;
+
+        public void CheckEstimationAfterSuccessful()
         {
-            FramesCounter++;
+            PreviousEstimation = Estimation;
+            Estimation = PreviousEstimation + Lambda - 1;
+            if (Estimation < Lambda)
+                Estimation = Lambda;
+        }
+
+        public void CheckEstimationAfterConflict()
+        {
+            PreviousEstimation = Estimation;
+            Estimation = PreviousEstimation + Lambda + 1.39;
         }
     }
 }
