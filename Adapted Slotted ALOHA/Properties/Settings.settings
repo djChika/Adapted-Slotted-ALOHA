@@ -6,15 +6,15 @@
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="NumberOfColums" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">11</Value>
+      <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="WidthOfColums" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">40</Value>
+      <Value Profile="(Default)">140</Value>
     </Setting>
     <Setting Name="IsManualModeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="stop" Type="System.Boolean" Scope="User">
+    <Setting Name="IsFramesNumbersTextEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

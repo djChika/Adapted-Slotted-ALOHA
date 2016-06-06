@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using static Adapted_Slotted_ALOHA.Properties.Settings;
@@ -14,6 +15,8 @@ namespace Adapted_Slotted_ALOHA
         public Form1()
         {
             InitializeComponent();
+            разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked = Default.IsManualModeEnabled;
+            показыватьНомераФлеймовToolStripMenuItem.Checked = Default.IsFramesNumbersTextEnabled;
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
@@ -27,10 +30,44 @@ namespace Adapted_Slotted_ALOHA
         List<Station> _stations = new List<Station>();
         private Server _server;
 
-        private void InitializeUI(int numberOfStations, int numberOfColums)
+        private void InitializePackagesUI()
         {
-            tableLayoutPanel1.RowCount = numberOfStations;
-            for (var i = 0; i < numberOfStations; i++)
+            tableLayoutPanel3.Controls.Clear();
+            tableLayoutPanel3.RowCount = Default.NumberOfStations;
+            tableLayoutPanel3.ColumnCount = Default.NumberOfColums;
+            UIPackages.Clear();
+            for (var i = 0; i < Default.NumberOfStations; i++)
+            {
+                var stationPackages = new List<Label>();
+                for (var j = 0; j < Default.NumberOfColums; j++)
+                {
+                    var label = new Label
+                    {
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Height = 30,
+                        Width = Default.WidthOfColums,
+                        Margin = new Padding(0, 0, 10, 3),
+                        BackColor = Color.Transparent,
+                        TextAlign = ContentAlignment.MiddleCenter
+                    };
+                    stationPackages.Add(label);
+                }
+                UIPackages.Add(stationPackages);
+            }
+            for (var ii = 0; ii < Default.NumberOfStations; ii++)
+            {
+                for (var jj = 0; jj < Default.NumberOfColums; jj++)
+                {
+                    tableLayoutPanel3.Controls.Add(UIPackages[ii][jj]);
+                }
+            }
+        }
+
+        private void InitializeStationsUI()
+        {
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel1.RowCount = Default.NumberOfStations;
+            for (var i = 0; i < Default.NumberOfStations; i++)
             {
                 var label = new Label
                 {
@@ -48,7 +85,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         _stations[i1].GivePackage();
                         _stations[i1].GenerateBacklogTime();
-                        UIBackloggedPackages[i1].BackColor=Color.DarkCyan;
+                        UIBackloggedPackages[i1].BackColor = Color.DarkCyan;
                         UpdateBackloggedText();
                     }
                 };
@@ -56,9 +93,13 @@ namespace Adapted_Slotted_ALOHA
                 tableLayoutPanel1.Controls.Add(_stationsUI[i]);
 
             }
+        }
 
-            tableLayoutPanel2.RowCount = numberOfStations;
-            for (var i = 0; i < numberOfStations; i++)
+        private void InitializeBackloggedPackagesUI()
+        {
+            tableLayoutPanel2.Controls.Clear();
+            tableLayoutPanel2.RowCount = Default.NumberOfStations;
+            for (var i = 0; i < Default.NumberOfStations; i++)
             {
                 var label = new Label
                 {
@@ -71,34 +112,13 @@ namespace Adapted_Slotted_ALOHA
                 tableLayoutPanel2.Controls.Add(UIBackloggedPackages[i]);
 
             }
+        }
 
-            tableLayoutPanel3.RowCount = numberOfStations;
-            tableLayoutPanel3.ColumnCount = numberOfColums;
-            for (var i = 0; i < numberOfStations; i++)
-            {
-                var stationPackages = new List<Label>();
-                for (var j = 0; j < numberOfColums; j++)
-                {
-                    var label = new Label
-                    {
-                        BorderStyle = BorderStyle.FixedSingle,
-                        Height = 30,
-                        Width = Default.WidthOfColums,
-                        Margin = new Padding(0, 0, 10, 3),
-                        BackColor = Color.Transparent,
-                        TextAlign = ContentAlignment.MiddleCenter
-                    };
-                    stationPackages.Add(label);
-                }
-                UIPackages.Add(stationPackages);
-            }
-            for (var ii = 0; ii < numberOfStations; ii++)
-            {
-                for (var jj = 0; jj < numberOfColums; jj++)
-                {
-                    tableLayoutPanel3.Controls.Add(UIPackages[ii][jj]);
-                }
-            }
+        private void InitializeUI()
+        {
+            InitializePackagesUI();
+            InitializeStationsUI();
+            InitializeBackloggedPackagesUI();
         }
 
         private void CreateStationsAndServer(int numberOfStations)
@@ -172,8 +192,8 @@ namespace Adapted_Slotted_ALOHA
             DecreaseBacklogTimers();
             GeneratePackages();
             _server.IncreaseFrameCounter();
-            label1.Text = "New: " + _server.Estimation;
-            label2.Text = "Prev.: " + _server.PreviousEstimation;
+            label1.Text = "Оценка: " + _server.Estimation;
+            label2.Text = "Пр.оценка.: " + _server.PreviousEstimation;
         }
 
         private void RepaintPackages(int selectedFrame)
@@ -186,7 +206,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         UIPackages[j][i].BackColor = _server.IsCollision(selectedFrame) ? Color.DarkRed : Color.LimeGreen;
                     }
-                    UIPackages[j][i].Text = selectedFrame.ToString();
+                    UIPackages[j][i].Text = Default.IsFramesNumbersTextEnabled ? selectedFrame.ToString() : "";
                 }
         }
 
@@ -209,11 +229,16 @@ namespace Adapted_Slotted_ALOHA
 
         private void стартToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NextButton.Enabled = true;
-            сбросToolStripMenuItem.Enabled = true;
-            стартToolStripMenuItem.Enabled = false;
-            InitializeUI(Default.NumberOfStations, Default.NumberOfColums);
-            CreateStationsAndServer(Default.NumberOfStations);
+            Form2 form2 = new Form2();
+            form2.Show();
+            form2.FormClosed += delegate
+            {
+                NextButton.Enabled = true;
+                сбросToolStripMenuItem.Enabled = true;
+                стартToolStripMenuItem.Enabled = false;
+                InitializeUI();
+                CreateStationsAndServer(Default.NumberOfStations);
+            };
         }
 
         private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
@@ -233,6 +258,51 @@ namespace Adapted_Slotted_ALOHA
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void разрешитьРучноеДобавлениеПакетовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked = !разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked;
+        }
+
+        private void разрешитьРучноеДобавлениеПакетовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            Default.IsManualModeEnabled = разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked;
+        }
+
+        private void показыватьНомераФлеймовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            показыватьНомераФлеймовToolStripMenuItem.Checked = !показыватьНомераФлеймовToolStripMenuItem.Checked;
+        }
+
+        private void показыватьНомераФлеймовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            Default.IsFramesNumbersTextEnabled = показыватьНомераФлеймовToolStripMenuItem.Checked;
+            RepaintPackages(_server.FramesCounter - 1);
+        }
+
+        private void крупныйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Default.NumberOfColums = 4;
+            Default.WidthOfColums = 140;
+            InitializePackagesUI();
+            RepaintPackages(_server.FramesCounter - 1);
+        }
+
+        private void среднийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Default.NumberOfColums = 8;
+            Default.WidthOfColums = 65;
+            InitializePackagesUI();
+            RepaintPackages(_server.FramesCounter - 1);
+        }
+
+        private void мелкийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Default.NumberOfColums = 12;
+            Default.WidthOfColums = 40;
+            InitializePackagesUI();
+            RepaintPackages(_server.FramesCounter - 1);
         }
     }
 }

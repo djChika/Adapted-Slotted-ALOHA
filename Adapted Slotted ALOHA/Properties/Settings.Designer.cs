@@ -37,7 +37,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
         public int NumberOfColums {
             get {
                 return ((int)(this["NumberOfColums"]));
@@ -49,7 +49,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("140")]
         public int WidthOfColums {
             get {
                 return ((int)(this["WidthOfColums"]));
@@ -61,7 +61,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IsManualModeEnabled {
             get {
                 return ((bool)(this["IsManualModeEnabled"]));
@@ -74,12 +74,12 @@ namespace Adapted_Slotted_ALOHA.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool stop {
+        public bool IsFramesNumbersTextEnabled {
             get {
-                return ((bool)(this["stop"]));
+                return ((bool)(this["IsFramesNumbersTextEnabled"]));
             }
             set {
-                this["stop"] = value;
+                this["IsFramesNumbersTextEnabled"] = value;
             }
         }
     }
