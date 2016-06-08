@@ -14,6 +14,7 @@ namespace Adapted_Slotted_ALOHA
     {
         public Form2()
         {
+            ControlBox = false;
             InitializeComponent();
             comboBox1.SelectedItem = Properties.Settings.Default.NumberOfStations;
             comboBox2.SelectedItem = Properties.Settings.Default.Lambda;
@@ -28,6 +29,7 @@ namespace Adapted_Slotted_ALOHA
                 Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.Text);
                 Properties.Settings.Default.Lambda = Convert.ToDouble(comboBox2.Text);
                 Properties.Settings.Default.NumberOfFrames = Convert.ToInt32(comboBox3.Text);
+                DialogResult = DialogResult.OK;
                 Close();
             }
             else
