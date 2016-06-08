@@ -15,16 +15,16 @@ namespace Adapted_Slotted_ALOHA
         public Form2()
         {
             InitializeComponent();
-            for (int i = 1; i < 20; i++)
-            {
-                comboBox1.Items.Add(i);
-            }
             comboBox1.SelectedItem = Properties.Settings.Default.NumberOfStations;
+            comboBox2.SelectedItem = Properties.Settings.Default.Lambda;
+            comboBox3.SelectedItem = Properties.Settings.Default.NumberOfFrames;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.SelectedItem);
+            Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.Text);
+            Properties.Settings.Default.Lambda = Convert.ToDouble(comboBox2.Text);
+            Properties.Settings.Default.NumberOfFrames = Convert.ToInt32(comboBox3.Text);
             Close();
         }
     }

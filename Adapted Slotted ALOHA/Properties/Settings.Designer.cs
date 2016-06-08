@@ -70,5 +70,29 @@ namespace Adapted_Slotted_ALOHA.Properties {
                 this["IsFramesNumbersTextEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.2")]
+        public double Lambda {
+            get {
+                return ((double)(this["Lambda"]));
+            }
+            set {
+                this["Lambda"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2500")]
+        public int NumberOfFrames {
+            get {
+                return ((int)(this["NumberOfFrames"]));
+            }
+            set {
+                this["NumberOfFrames"] = value;
+            }
+        }
     }
 }

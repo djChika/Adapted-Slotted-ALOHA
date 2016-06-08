@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Adapted_Slotted_ALOHA.Properties;
+using MathNet.Numerics.Distributions;
 
 namespace Adapted_Slotted_ALOHA
 {
@@ -10,7 +8,8 @@ namespace Adapted_Slotted_ALOHA
     {
         private int _package;
         private int _backlogTime;
-        private static readonly Random Random = new Random();
+        public static Poisson Poisson;
+        public static Random Random = new Random();
 
         public void GivePackage()
         {
@@ -19,18 +18,18 @@ namespace Adapted_Slotted_ALOHA
 
         public void GeneratePackage()
         {
-            _package = Random.Next(10);
+            _package = Poisson.Sample();
         }
 
         public void GenerateBacklogTime()
         {
             if (IsPackageExist())
-                _backlogTime = Random.Next(10);
+                _backlogTime = Random.Next(20);
         }
 
         public bool IsPackageExist()
         {
-            return _package == 1;
+            return _package != 0;
         }
 
         public void DecreaseBacklogTime()

@@ -44,7 +44,7 @@
             this.крупныйToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.среднийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.мелкийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.показыватьНомераФлеймовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.показыватьНомераФреймовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NextButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
@@ -177,7 +177,7 @@
             // 
             this.интерфейсToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.масштабToolStripMenuItem,
-            this.показыватьНомераФлеймовToolStripMenuItem});
+            this.показыватьНомераФреймовToolStripMenuItem});
             this.интерфейсToolStripMenuItem.Name = "интерфейсToolStripMenuItem";
             this.интерфейсToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.интерфейсToolStripMenuItem.Text = "Интерфейс";
@@ -213,13 +213,13 @@
             this.мелкийToolStripMenuItem.Text = "Мелкий";
             this.мелкийToolStripMenuItem.Click += new System.EventHandler(this.мелкийToolStripMenuItem_Click);
             // 
-            // показыватьНомераФлеймовToolStripMenuItem
+            // показыватьНомераФреймовToolStripMenuItem
             // 
-            this.показыватьНомераФлеймовToolStripMenuItem.Name = "показыватьНомераФлеймовToolStripMenuItem";
-            this.показыватьНомераФлеймовToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.показыватьНомераФлеймовToolStripMenuItem.Text = "Показывать номера фреймов";
-            this.показыватьНомераФлеймовToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.показыватьНомераФлеймовToolStripMenuItem_CheckStateChanged);
-            this.показыватьНомераФлеймовToolStripMenuItem.Click += new System.EventHandler(this.показыватьНомераФлеймовToolStripMenuItem_Click);
+            this.показыватьНомераФреймовToolStripMenuItem.Name = "показыватьНомераФреймовToolStripMenuItem";
+            this.показыватьНомераФреймовToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.показыватьНомераФреймовToolStripMenuItem.Text = "Показывать номера фреймов";
+            this.показыватьНомераФреймовToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.показыватьНомераФлеймовToolStripMenuItem_CheckStateChanged);
+            this.показыватьНомераФреймовToolStripMenuItem.Click += new System.EventHandler(this.показыватьНомераФлеймовToolStripMenuItem_Click);
             // 
             // NextButton
             // 
@@ -288,7 +288,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem интерфейсToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem показыватьНомераФлеймовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem показыватьНомераФреймовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem масштабToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem крупныйToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem среднийToolStripMenuItem;

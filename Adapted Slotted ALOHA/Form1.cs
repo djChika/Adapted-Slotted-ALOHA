@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using MathNet.Numerics.Distributions;
 using static Adapted_Slotted_ALOHA.Properties.Settings;
 using NLog;
 
@@ -15,7 +16,7 @@ namespace Adapted_Slotted_ALOHA
         public Form1()
         {
             InitializeComponent();
-            показыватьНомераФлеймовToolStripMenuItem.Checked = Default.IsFramesNumbersTextEnabled;
+            показыватьНомераФреймовToolStripMenuItem.Checked = Default.IsFramesNumbersTextEnabled;
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
@@ -27,7 +28,7 @@ namespace Adapted_Slotted_ALOHA
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         private Server _server;
-        
+
         private void InitializePackagesUI()
         {
             tableLayoutPanel3.Controls.Clear();
@@ -76,17 +77,6 @@ namespace Adapted_Slotted_ALOHA
                     Font = new Font(Font, FontStyle.Bold),
                     Text = $"#{i}"
                 };
-                var i1 = i;
-                label.Click += delegate
-                {
-                    if (!_stations[i1].IsPackageExist())
-                    {
-                        _stations[i1].GivePackage();
-                        _stations[i1].GenerateBacklogTime();
-                        UIBackloggedPackages[i1].BackColor = Color.DarkCyan;
-                        UpdateBackloggedText();
-                    }
-                };
                 _stationsUI.Add(label);
                 tableLayoutPanel1.Controls.Add(_stationsUI[i]);
 
@@ -119,14 +109,23 @@ namespace Adapted_Slotted_ALOHA
             InitializeBackloggedPackagesUI();
         }
 
-        private void CreateStationsAndServer(int numberOfStations)
+        private void CreateObjects(int numberOfStations)
         {
             for (var i = 0; i < numberOfStations; i++)
             {
                 var station = new Station();
                 _stations.Add(station);
             }
+            Station.Poisson = new Poisson(Default.Lambda / Default.NumberOfStations);
+            Station.Random = new Random();
             _server = new Server();
+        }
+
+        private void DestroyObjects()
+        {
+            _server = null;
+            Station.Poisson = null;
+            Station.Random = null;
         }
 
         private void GeneratePackages()
@@ -233,8 +232,9 @@ namespace Adapted_Slotted_ALOHA
                 стартToolStripMenuItem.Enabled = false;
                 настройкиToolStripMenuItem.Enabled = true;
                 InitializeUI();
-                CreateStationsAndServer(Default.NumberOfStations);
+                CreateObjects(Default.NumberOfStations);
             };
+
         }
 
         private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
@@ -249,7 +249,7 @@ namespace Adapted_Slotted_ALOHA
             _stationsUI.Clear();
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
-            _server = null;
+            DestroyObjects();
             label1.Text = "";
         }
 
@@ -260,12 +260,12 @@ namespace Adapted_Slotted_ALOHA
 
         private void показыватьНомераФлеймовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            показыватьНомераФлеймовToolStripMenuItem.Checked = !показыватьНомераФлеймовToolStripMenuItem.Checked;
+            показыватьНомераФреймовToolStripMenuItem.Checked = !показыватьНомераФреймовToolStripMenuItem.Checked;
         }
 
         private void показыватьНомераФлеймовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            Default.IsFramesNumbersTextEnabled = показыватьНомераФлеймовToolStripMenuItem.Checked;
+            Default.IsFramesNumbersTextEnabled = показыватьНомераФреймовToolStripMenuItem.Checked;
             RepaintPackages(_server.FramesCounter - 1);
         }
 

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Adapted_Slotted_ALOHA.Properties;
+﻿using Adapted_Slotted_ALOHA.Properties;
 
 namespace Adapted_Slotted_ALOHA
 {
@@ -23,7 +16,7 @@ namespace Adapted_Slotted_ALOHA
             var collision = 0;
             for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
-                if (Frames[i, frame] == 1)
+                if (IsPackageSent(i, frame))
                 {
                     collision++;
                 }
@@ -41,25 +34,24 @@ namespace Adapted_Slotted_ALOHA
 
         public bool IsPackageSent(int station, int frame)
         {
-            return Frames[station, frame] == 1;
+            return Frames[station, frame] != 0;
         }
 
-        public double PreviousEstimation { get; set; } = 0;
-        public double Estimation { get; set; } = 0;
-        public double Lambda { get; set; } = 0.2;
+        public double PreviousEstimation { get; set; }
+        public double Estimation { get; set; }
 
         public void CheckEstimationAfterSuccessful()
         {
             PreviousEstimation = Estimation;
-            Estimation = PreviousEstimation + Lambda - 1;
-            if (Estimation < Lambda)
-                Estimation = Lambda;
+            Estimation = PreviousEstimation + Settings.Default.Lambda - 1;
+            if (Estimation < Settings.Default.Lambda)
+                Estimation = Settings.Default.Lambda;
         }
 
         public void CheckEstimationAfterConflict()
         {
             PreviousEstimation = Estimation;
-            Estimation = PreviousEstimation + Lambda + 1.39;
+            Estimation = PreviousEstimation + Settings.Default.Lambda + 1.39;
         }
     }
 }
