@@ -19,7 +19,7 @@ namespace Adapted_Slotted_ALOHA
 
         public void GeneratePackage()
         {
-            _package = Random.Next(20);
+            _package = Random.Next(10);
         }
 
         public void GenerateBacklogTime()

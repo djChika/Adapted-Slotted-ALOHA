@@ -15,13 +15,11 @@ namespace Adapted_Slotted_ALOHA
         public Form1()
         {
             InitializeComponent();
-            разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked = Default.IsManualModeEnabled;
             показыватьНомераФлеймовToolStripMenuItem.Checked = Default.IsFramesNumbersTextEnabled;
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
             label1.Text = "";
-            label2.Text = "";
         }
 
         List<Label> _stationsUI = new List<Label>();
@@ -29,7 +27,7 @@ namespace Adapted_Slotted_ALOHA
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         private Server _server;
-
+        
         private void InitializePackagesUI()
         {
             tableLayoutPanel3.Controls.Clear();
@@ -81,7 +79,7 @@ namespace Adapted_Slotted_ALOHA
                 var i1 = i;
                 label.Click += delegate
                 {
-                    if (Default.IsManualModeEnabled && !_stations[i1].IsPackageExist())
+                    if (!_stations[i1].IsPackageExist())
                     {
                         _stations[i1].GivePackage();
                         _stations[i1].GenerateBacklogTime();
@@ -134,7 +132,6 @@ namespace Adapted_Slotted_ALOHA
         private void GeneratePackages()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
-            {
                 if (!_stations[i].IsPackageExist())
                 {
                     _stations[i].GeneratePackage();
@@ -144,7 +141,6 @@ namespace Adapted_Slotted_ALOHA
                         _stations[i].GenerateBacklogTime();
                     }
                 }
-            }
             UpdateBackloggedText();
         }
 
@@ -193,7 +189,6 @@ namespace Adapted_Slotted_ALOHA
             GeneratePackages();
             _server.IncreaseFrameCounter();
             label1.Text = "Оценка: " + _server.Estimation;
-            label2.Text = "Пр.оценка.: " + _server.PreviousEstimation;
         }
 
         private void RepaintPackages(int selectedFrame)
@@ -236,6 +231,7 @@ namespace Adapted_Slotted_ALOHA
                 NextButton.Enabled = true;
                 сбросToolStripMenuItem.Enabled = true;
                 стартToolStripMenuItem.Enabled = false;
+                настройкиToolStripMenuItem.Enabled = true;
                 InitializeUI();
                 CreateStationsAndServer(Default.NumberOfStations);
             };
@@ -244,6 +240,7 @@ namespace Adapted_Slotted_ALOHA
         private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextButton.Enabled = false;
+            настройкиToolStripMenuItem.Enabled = false;
             стартToolStripMenuItem.Enabled = true;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
@@ -253,21 +250,12 @@ namespace Adapted_Slotted_ALOHA
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
             _server = null;
+            label1.Text = "";
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void разрешитьРучноеДобавлениеПакетовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked = !разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked;
-        }
-
-        private void разрешитьРучноеДобавлениеПакетовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            Default.IsManualModeEnabled = разрешитьРучноеДобавлениеПакетовToolStripMenuItem.Checked;
         }
 
         private void показыватьНомераФлеймовToolStripMenuItem_Click(object sender, EventArgs e)

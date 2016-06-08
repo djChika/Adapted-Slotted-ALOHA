@@ -11,9 +11,6 @@
     <Setting Name="WidthOfColums" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">140</Value>
     </Setting>
-    <Setting Name="IsManualModeEnabled" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="IsFramesNumbersTextEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
