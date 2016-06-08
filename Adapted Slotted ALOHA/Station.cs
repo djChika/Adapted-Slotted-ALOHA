@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Adapted_Slotted_ALOHA.Properties;
 using MathNet.Numerics.Distributions;
 
@@ -24,7 +25,7 @@ namespace Adapted_Slotted_ALOHA
         public void GenerateBacklogTime()
         {
             if (IsPackageExist())
-                _backlogTime = Random.Next(20);
+                _backlogTime = Random.Next(1, 20);
         }
 
         public bool IsPackageExist()
@@ -50,7 +51,7 @@ namespace Adapted_Slotted_ALOHA
 
         public bool IsAllow(double estimation)
         {
-            return 1 / estimation >= 1;
+            return Random.NextDouble() <= 1 / estimation;
         }
 
         public int Package(double estimation)
