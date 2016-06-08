@@ -224,8 +224,7 @@ namespace Adapted_Slotted_ALOHA
         private void стартToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
-            form2.Show();
-            form2.FormClosed += delegate
+            if (form2.ShowDialog() == DialogResult.OK) ;
             {
                 NextButton.Enabled = true;
                 сбросToolStripMenuItem.Enabled = true;
@@ -242,6 +241,7 @@ namespace Adapted_Slotted_ALOHA
             NextButton.Enabled = false;
             настройкиToolStripMenuItem.Enabled = false;
             стартToolStripMenuItem.Enabled = true;
+            сбросToolStripMenuItem.Enabled = false;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();

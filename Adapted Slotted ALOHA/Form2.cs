@@ -22,16 +22,16 @@ namespace Adapted_Slotted_ALOHA
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1 != null) Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.Text);
+            if (!string.IsNullOrEmpty(comboBox1.Text) && !string.IsNullOrEmpty(comboBox2.Text) &&
+                !string.IsNullOrEmpty(comboBox3.Text))
+            {
+                Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.Text);
+                Properties.Settings.Default.Lambda = Convert.ToDouble(comboBox2.Text);
+                Properties.Settings.Default.NumberOfFrames = Convert.ToInt32(comboBox3.Text);
+                Close();
+            }
             else
                 MessageBox.Show("Проверьте введенные данные!");
-            if (comboBox2.Text != null) Properties.Settings.Default.Lambda = Convert.ToDouble(comboBox2.Text);
-            else
-                MessageBox.Show("Проверьте введенные данные!");
-            if (comboBox3.Text != null) Properties.Settings.Default.NumberOfFrames = Convert.ToInt32(comboBox3.Text);
-            else
-                MessageBox.Show("Проверьте введенные данные!");
-            Close();
         }
     }
 }
