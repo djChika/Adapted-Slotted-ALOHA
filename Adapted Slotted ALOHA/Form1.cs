@@ -137,7 +137,6 @@ namespace Adapted_Slotted_ALOHA
                     if (_stations[i].IsPackageExist())
                     {
                         UIBackloggedPackages[i].BackColor = Color.DarkCyan;
-                        _stations[i].GenerateBacklogTime();
                     }
                 }
         }
