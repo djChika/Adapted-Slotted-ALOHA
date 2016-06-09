@@ -12,7 +12,6 @@ namespace Adapted_Slotted_ALOHA
     internal partial class Form1 : Form
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        //test
         public Form1()
         {
             InitializeComponent();
@@ -145,7 +144,6 @@ namespace Adapted_Slotted_ALOHA
                         UIBackloggedPackages[i].BackColor = Color.DarkCyan;
                         _statistics.Packages++;
                     }
-
                 }
         }
 
@@ -160,6 +158,13 @@ namespace Adapted_Slotted_ALOHA
             for (var i = 0; i < Default.NumberOfStations; i++)
                 _server.Frames[i, _server.CurrentFrame] = _stations[i].Package(_server.Estimation);
             RepaintPackages(_server.CurrentFrame);
+        }
+
+        private void CheckNumberOfBackloggedPackages()
+        {
+            for (int i = 0; i < Default.NumberOfStations; i++)
+                if (_stations[i].IsBacklogged())
+                    _statistics.AddNumberOfBackloggedPackages(_server.CurrentFrame);
         }
 
         private void DecreaseBacklogTimers()
@@ -216,26 +221,27 @@ namespace Adapted_Slotted_ALOHA
                 if (_stations[i].IsPackageExist())
                 {
                     UIBackloggedPackages[i].Text = _stations[i].BacklogTime().ToString();
-                    if (_stations[i].BacklogTime() == 0 && _stations[i].IsAllowToSend(_server.Estimation))
+                    if (!_stations[i].IsBacklogged() && _stations[i].IsAllowToSend(_server.Estimation))
                         _stationsUI[i].BackColor = Color.Green;
                 }
             }
         }
 
-        private void UpdateInfoLabels()
+        private void UpdateInfo()
         {
             if (_server != null) label1.Text = $"Оценка: {Math.Round(_server.Estimation, 3)}";
-            label2.Text = $"Пришло: {_statistics.Packages}";
-            label3.Text = $"Покинуло систему: {_statistics.PackagesLeavedSystem}";
-            label4.Text = $"В очереди: {_statistics.Packages - _statistics.PackagesLeavedSystem}";
+            textBox1.Text = $"{_statistics.Packages}";
+            textBox2.Text = $"{_statistics.PackagesLeavedSystem}";
+            textBox3.Text = $"{_statistics.Packages - _statistics.PackagesLeavedSystem}";
+            textBox4.Text = $"{_statistics.CalculateAverageNumberOfBackloggedPackages(_server.CurrentFrame)}";
         }
 
-        private void CleanInfoLabels()
+        private void CleanInfo()
         {
-            label1.Text = "Оценка:";
-            label2.Text = "Пришло:";
-            label3.Text = "Покинуло систему:";
-            label4.Text = "В очереди:";
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -246,8 +252,10 @@ namespace Adapted_Slotted_ALOHA
             GeneratePackages();
             GenerateRandomProbabilities();
             UpdateBackloggedText();
+            CheckNumberOfBackloggedPackages();
+            UpdateInfo();
             _server.IncreaseCurrentFrameCounter();
-            UpdateInfoLabels();
+
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -259,14 +267,14 @@ namespace Adapted_Slotted_ALOHA
                 очиститьToolStripMenuItem.Enabled = true;
                 создатьToolStripMenuItem.Enabled = false;
                 видToolStripMenuItem.Enabled = true;
-                запускToolStripMenuItem.Enabled = true;
+                анализToolStripMenuItem.Enabled = true;
                 крупныйToolStripMenuItem.Checked = true;
                 InitializeUI();
                 CreateObjects(Default.NumberOfStations);
                 GeneratePackages();
                 GenerateRandomProbabilities();
                 UpdateBackloggedText();
-                UpdateInfoLabels();
+                UpdateInfo();
             }
         }
 
@@ -276,7 +284,7 @@ namespace Adapted_Slotted_ALOHA
             видToolStripMenuItem.Enabled = false;
             создатьToolStripMenuItem.Enabled = true;
             очиститьToolStripMenuItem.Enabled = false;
-            запускToolStripMenuItem.Enabled = false;
+            анализToolStripMenuItem.Enabled = false;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
@@ -285,7 +293,7 @@ namespace Adapted_Slotted_ALOHA
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
             DestroyObjects();
-            CleanInfoLabels();
+            CleanInfo();
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -327,6 +335,14 @@ namespace Adapted_Slotted_ALOHA
             Default.WidthOfColums = 40;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < _server.CurrentFrame; i++)
+            {
+                _logger.Debug($"Frame#{i}: {_statistics.NumberOfBackloggedPackages[i]}");
+            }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Adapted_Slotted_ALOHA
             return _backlogTime;
         }
 
-        private bool IsBacklogged()
+        public bool IsBacklogged()
         {
             return _backlogTime != 0;
         }
