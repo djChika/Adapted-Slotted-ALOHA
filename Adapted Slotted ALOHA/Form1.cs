@@ -12,7 +12,7 @@ namespace Adapted_Slotted_ALOHA
     internal partial class Form1 : Form
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
-
+        //test
         public Form1()
         {
             InitializeComponent();
