@@ -65,14 +65,9 @@ namespace Adapted_Slotted_ALOHA
         {
             if (IsPackageExist() && !IsBacklogged())
                 if (IsAllowToSend(estimation))
-                {
                     return _package;
-                }
                 else
-                {
                     GenerateBacklogTime();
-                }
-
             return 0;
         }
 

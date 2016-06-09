@@ -20,7 +20,10 @@ namespace Adapted_Slotted_ALOHA
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
-            label1.Text = "";
+            показыватьНомераФреймовToolStripMenuItem.CheckOnClick = true;
+            крупныйToolStripMenuItem.CheckOnClick = true;
+            среднийToolStripMenuItem.CheckOnClick = true;
+            мелкийToolStripMenuItem.CheckOnClick = true;
         }
 
         List<Label> _stationsUI = new List<Label>();
@@ -135,9 +138,7 @@ namespace Adapted_Slotted_ALOHA
                 {
                     _stations[i].GeneratePackage();
                     if (_stations[i].IsPackageExist())
-                    {
                         UIBackloggedPackages[i].BackColor = Color.DarkCyan;
-                    }
                 }
         }
 
@@ -150,8 +151,8 @@ namespace Adapted_Slotted_ALOHA
         private void SendPackages()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
-                _server.Frames[i, _server.FramesCounter] = _stations[i].Package(_server.Estimation);
-            RepaintPackages(_server.FramesCounter);
+                _server.Frames[i, _server.CurrentFrame] = _stations[i].Package(_server.Estimation);
+            RepaintPackages(_server.CurrentFrame);
         }
 
         private void DecreaseBacklogTimers()
@@ -162,38 +163,26 @@ namespace Adapted_Slotted_ALOHA
 
         private void CheckCollision()
         {
-            if (!_server.IsCollision(_server.FramesCounter))
+            if (!_server.IsCollision(_server.CurrentFrame))
             {
                 for (var i = 0; i < Default.NumberOfStations; i++)
-                    if (_server.IsPackageSent(i, _server.FramesCounter))
+                    if (_server.IsPackageSent(i, _server.CurrentFrame))
                     {
                         _stations[i].DestroyPackage();
                         UIBackloggedPackages[i].BackColor = Color.Transparent;
                     }
-                _server.CheckEstimationAfterSuccessful();
+                _server.CheckEstimationAfterSuccessfulOrEmpty();
             }
-            else if (_server.IsCollision(_server.FramesCounter))
+            else if (_server.IsCollision(_server.CurrentFrame))
             {
                 for (var i = 0; i < Default.NumberOfStations; i++)
-                    if (_server.IsPackageSent(i, _server.FramesCounter))
+                    if (_server.IsPackageSent(i, _server.CurrentFrame))
                     {
                         _stations[i].GenerateBacklogTime();
                         UIBackloggedPackages[i].BackColor = Color.IndianRed;
                     }
                 _server.CheckEstimationAfterConflict();
             }
-        }
-
-        private void NextButton_Click(object sender, EventArgs e)
-        {
-            SendPackages();
-            CheckCollision();
-            DecreaseBacklogTimers();
-            GeneratePackages();
-            GenerateRandomProbabilities();
-            UpdateBackloggedText();
-            _server.IncreaseFrameCounter();
-            label1.Text = "Оценка: " + _server.Estimation;
         }
 
         private void RepaintPackages(int selectedFrame)
@@ -220,22 +209,39 @@ namespace Adapted_Slotted_ALOHA
                 {
                     UIBackloggedPackages[i].Text = _stations[i].BacklogTime().ToString();
                     if (_stations[i].BacklogTime() == 0 && _stations[i].IsAllowToSend(_server.Estimation))
-                    {
                         _stationsUI[i].BackColor = Color.Green;
-                    }
                 }
             }
         }
 
-        private void стартToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UpdateInfo()
+        {
+            if (_server != null) label1.Text = $"Оценка: {Math.Round(_server.Estimation, 3)}";
+        }
+
+        private void NextButton_Click(object sender, EventArgs e)
+        {
+            SendPackages();
+            CheckCollision();
+            DecreaseBacklogTimers();
+            GeneratePackages();
+            GenerateRandomProbabilities();
+            UpdateBackloggedText();
+            _server.IncreaseCurrentFrameCounter();
+            UpdateInfo();
+        }
+
+        private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
             if (form2.ShowDialog() == DialogResult.OK)
             {
                 NextButton.Enabled = true;
-                сбросToolStripMenuItem.Enabled = true;
-                стартToolStripMenuItem.Enabled = false;
-                настройкиToolStripMenuItem.Enabled = true;
+                очиститьToolStripMenuItem.Enabled = true;
+                создатьToolStripMenuItem.Enabled = false;
+                видToolStripMenuItem.Enabled = true;
+                запускToolStripMenuItem.Enabled = true;
+                крупныйToolStripMenuItem.Checked = true;
                 InitializeUI();
                 CreateObjects(Default.NumberOfStations);
                 GeneratePackages();
@@ -244,12 +250,13 @@ namespace Adapted_Slotted_ALOHA
             }
         }
 
-        private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
+        private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextButton.Enabled = false;
-            настройкиToolStripMenuItem.Enabled = false;
-            стартToolStripMenuItem.Enabled = true;
-            сбросToolStripMenuItem.Enabled = false;
+            видToolStripMenuItem.Enabled = false;
+            создатьToolStripMenuItem.Enabled = true;
+            очиститьToolStripMenuItem.Enabled = false;
+            запускToolStripMenuItem.Enabled = false;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
@@ -266,39 +273,45 @@ namespace Adapted_Slotted_ALOHA
             Close();
         }
 
-        private void показыватьНомераФлеймовToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            показыватьНомераФреймовToolStripMenuItem.Checked = !показыватьНомераФреймовToolStripMenuItem.Checked;
-        }
-
-        private void показыватьНомераФлеймовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        private void показыватьНомераФреймовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             Default.IsFramesNumbersTextEnabled = показыватьНомераФреймовToolStripMenuItem.Checked;
-            RepaintPackages(_server.FramesCounter - 1);
+            RepaintPackages(_server.CurrentFrame - 1);
         }
 
         private void крупныйToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            среднийToolStripMenuItem.Checked = false;
+            мелкийToolStripMenuItem.Checked = false;
             Default.NumberOfColums = 4;
             Default.WidthOfColums = 140;
             InitializePackagesUI();
-            RepaintPackages(_server.FramesCounter - 1);
+            RepaintPackages(_server.CurrentFrame - 1);
         }
 
         private void среднийToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            крупныйToolStripMenuItem.Checked = false;
+            мелкийToolStripMenuItem.Checked = false;
             Default.NumberOfColums = 8;
             Default.WidthOfColums = 65;
             InitializePackagesUI();
-            RepaintPackages(_server.FramesCounter - 1);
+            RepaintPackages(_server.CurrentFrame - 1);
         }
 
         private void мелкийToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            крупныйToolStripMenuItem.Checked = false;
+            среднийToolStripMenuItem.Checked = false;
             Default.NumberOfColums = 12;
             Default.WidthOfColums = 40;
             InitializePackagesUI();
-            RepaintPackages(_server.FramesCounter - 1);
+            RepaintPackages(_server.CurrentFrame - 1);
+        }
+
+        private void стартToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

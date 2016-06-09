@@ -5,10 +5,10 @@ namespace Adapted_Slotted_ALOHA
     internal class Server
     {
         public int[,] Frames { get; set; } = new int[Settings.Default.NumberOfStations, 10000];
-        public int FramesCounter { get; set; }
-        public void IncreaseFrameCounter()
+        public int CurrentFrame { get; set; }
+        public void IncreaseCurrentFrameCounter()
         {
-            FramesCounter++;
+            CurrentFrame++;
         }
 
         public bool IsCollision(int frame)
@@ -40,7 +40,7 @@ namespace Adapted_Slotted_ALOHA
         public double PreviousEstimation { get; set; }
         public double Estimation { get; set; }
 
-        public void CheckEstimationAfterSuccessful()
+        public void CheckEstimationAfterSuccessfulOrEmpty()
         {
             PreviousEstimation = Estimation;
             Estimation = PreviousEstimation + Settings.Default.Lambda - 1;

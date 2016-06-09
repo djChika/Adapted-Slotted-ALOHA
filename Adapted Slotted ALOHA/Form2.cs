@@ -16,9 +16,9 @@ namespace Adapted_Slotted_ALOHA
         {
             ControlBox = false;
             InitializeComponent();
-            comboBox1.SelectedItem = Properties.Settings.Default.NumberOfStations;
-            comboBox2.SelectedItem = Properties.Settings.Default.Lambda;
-            comboBox3.SelectedItem = Properties.Settings.Default.NumberOfFrames;
+            comboBox1.SelectedIndex = 1;
+            comboBox2.SelectedIndex = 3;
+            comboBox3.SelectedIndex = 4;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,7 +33,7 @@ namespace Adapted_Slotted_ALOHA
                 Close();
             }
             else
-                MessageBox.Show("Проверьте введенные данные.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Проверьте введенные данные.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }
