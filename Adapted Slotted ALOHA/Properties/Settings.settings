@@ -18,7 +18,7 @@
       <Value Profile="(Default)">0.2</Value>
     </Setting>
     <Setting Name="NumberOfFrames" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2500</Value>
+      <Value Profile="(Default)">5000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

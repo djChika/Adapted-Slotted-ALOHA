@@ -142,6 +142,7 @@ namespace Adapted_Slotted_ALOHA
                     if (_stations[i].IsPackageExist())
                     {
                         UIBackloggedPackages[i].BackColor = Color.DarkCyan;
+                        _stations[i].ResetLifeTime();
                         _statistics.Packages++;
                     }
                 }
@@ -173,6 +174,15 @@ namespace Adapted_Slotted_ALOHA
                 _stations[i].DecreaseBacklogTime();
         }
 
+        public void IncreasePackagesLifeTime()
+        {
+            for (int i = 0; i < Default.NumberOfStations; i++)
+            {
+                if (_stations[i].IsPackageExist())
+                    _stations[i].IncreaseLifeTime();
+            }
+        }
+
         private void CheckCollision()
         {
             if (!_server.IsCollision(_server.CurrentFrame))
@@ -181,6 +191,8 @@ namespace Adapted_Slotted_ALOHA
                     if (_server.IsPackageSent(i, _server.CurrentFrame))
                     {
                         _stations[i].DestroyPackage();
+                        _statistics.PackagesLifeTime += _stations[i].LifeTime;
+                        _stations[i].ResetLifeTime();
                         UIBackloggedPackages[i].BackColor = Color.Transparent;
                         _statistics.PackagesLeavedSystem++;
                     }
@@ -233,7 +245,8 @@ namespace Adapted_Slotted_ALOHA
             textBox1.Text = $"{_statistics.Packages}";
             textBox2.Text = $"{_statistics.PackagesLeavedSystem}";
             textBox3.Text = $"{_statistics.Packages - _statistics.PackagesLeavedSystem}";
-            textBox4.Text = $"{_statistics.CalculateAverageNumberOfBackloggedPackages(_server.CurrentFrame)}";
+            textBox4.Text = $"{Math.Round(_statistics.CalculateAverageNumberOfBackloggedPackages(_server.CurrentFrame))}";
+            textBox6.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime())}";
         }
 
         private void CleanInfo()
@@ -242,6 +255,8 @@ namespace Adapted_Slotted_ALOHA
             textBox2.Clear();
             textBox3.Clear();
             textBox4.Clear();
+            textBox5.Clear();
+            textBox6.Clear();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -253,6 +268,7 @@ namespace Adapted_Slotted_ALOHA
             GenerateRandomProbabilities();
             UpdateBackloggedText();
             CheckNumberOfBackloggedPackages();
+            IncreasePackagesLifeTime();
             UpdateInfo();
             _server.IncreaseCurrentFrameCounter();
 

@@ -85,7 +85,7 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
         public int NumberOfFrames {
             get {
                 return ((int)(this["NumberOfFrames"]));

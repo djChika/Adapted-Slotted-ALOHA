@@ -18,7 +18,7 @@ namespace Adapted_Slotted_ALOHA
             InitializeComponent();
             comboBox1.SelectedIndex = 1;
             comboBox2.SelectedIndex = 3;
-            comboBox3.SelectedIndex = 4;
+            comboBox3.SelectedIndex = 6;
         }
 
         private void button1_Click(object sender, EventArgs e)

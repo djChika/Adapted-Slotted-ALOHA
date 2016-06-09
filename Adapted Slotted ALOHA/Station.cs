@@ -8,15 +8,11 @@ namespace Adapted_Slotted_ALOHA
     internal class Station
     {
         private int _package;
+        public int LifeTime { get; private set; }
         private int _backlogTime;
         private double _probability;
         public static Poisson Poisson;
         public static Random Random = new Random();
-
-        public void GivePackage()
-        {
-            _package = 1;
-        }
 
         public void GeneratePackage()
         {
@@ -32,6 +28,16 @@ namespace Adapted_Slotted_ALOHA
         public bool IsPackageExist()
         {
             return _package != 0;
+        }
+
+        public void IncreaseLifeTime()
+        {
+            LifeTime++;
+        }
+
+        public void ResetLifeTime()
+        {
+            LifeTime = 0;
         }
 
         public void DecreaseBacklogTime()
