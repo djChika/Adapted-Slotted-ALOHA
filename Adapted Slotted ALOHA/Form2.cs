@@ -14,7 +14,6 @@ namespace Adapted_Slotted_ALOHA
     {
         public Form2()
         {
-            ControlBox = false;
             InitializeComponent();
             comboBox1.SelectedIndex = 1;
             comboBox2.SelectedIndex = 3;
