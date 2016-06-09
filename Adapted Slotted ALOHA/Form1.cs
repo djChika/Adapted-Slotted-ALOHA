@@ -140,7 +140,12 @@ namespace Adapted_Slotted_ALOHA
                         _stations[i].GenerateBacklogTime();
                     }
                 }
-            UpdateBackloggedText();
+        }
+
+        private void GenerateRandomProbabilities()
+        {
+            for (var i = 0; i < Default.NumberOfStations; i++)
+                _stations[i].GenerateRandomProbability();
         }
 
         private void SendPackages()
@@ -186,6 +191,8 @@ namespace Adapted_Slotted_ALOHA
             CheckCollision();
             DecreaseBacklogTimers();
             GeneratePackages();
+            GenerateRandomProbabilities();
+            UpdateBackloggedText();
             _server.IncreaseFrameCounter();
             label1.Text = "Оценка: " + _server.Estimation;
         }
@@ -213,7 +220,7 @@ namespace Adapted_Slotted_ALOHA
                 if (_stations[i].IsPackageExist())
                 {
                     UIBackloggedPackages[i].Text = _stations[i].BacklogTime().ToString();
-                    if (_stations[i].BacklogTime() == 0 && _stations[i].IsAllow(_server.Estimation))
+                    if (_stations[i].BacklogTime() == 0 && _stations[i].IsAllowToSend(_server.Estimation))
                     {
                         _stationsUI[i].BackColor = Color.Green;
                     }
@@ -232,6 +239,9 @@ namespace Adapted_Slotted_ALOHA
                 настройкиToolStripMenuItem.Enabled = true;
                 InitializeUI();
                 CreateObjects(Default.NumberOfStations);
+                GeneratePackages();
+                GenerateRandomProbabilities();
+                UpdateBackloggedText();
             }
         }
 

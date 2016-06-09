@@ -33,7 +33,7 @@ namespace Adapted_Slotted_ALOHA
                 Close();
             }
             else
-                MessageBox.Show("Проверьте введенные данные!");
+                MessageBox.Show("Проверьте введенные данные.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

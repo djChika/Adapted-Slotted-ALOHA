@@ -9,6 +9,7 @@ namespace Adapted_Slotted_ALOHA
     {
         private int _package;
         private int _backlogTime;
+        private double _probability;
         public static Poisson Poisson;
         public static Random Random = new Random();
 
@@ -25,7 +26,7 @@ namespace Adapted_Slotted_ALOHA
         public void GenerateBacklogTime()
         {
             if (IsPackageExist())
-                _backlogTime = Random.Next(1, 20);
+                _backlogTime = Random.Next(20);
         }
 
         public bool IsPackageExist()
@@ -49,15 +50,21 @@ namespace Adapted_Slotted_ALOHA
             return _backlogTime != 0;
         }
 
-        public bool IsAllow(double estimation)
+        public void GenerateRandomProbability()
         {
-            return Random.NextDouble() <= 1 / estimation;
+            if (IsPackageExist())
+                _probability = Random.NextDouble();
+        }
+
+        public bool IsAllowToSend(double estimation)
+        {
+            return _probability <= 1 / estimation;
         }
 
         public int Package(double estimation)
         {
             if (IsPackageExist() && !IsBacklogged())
-                if (IsAllow(estimation))
+                if (IsAllowToSend(estimation))
                 {
                     return _package;
                 }
