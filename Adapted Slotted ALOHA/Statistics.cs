@@ -11,20 +11,23 @@ namespace Adapted_Slotted_ALOHA
     {
         public int Packages { get; set; }
         public int PackagesLeavedSystem { get; set; }
-        public int PackagesIsBacklogged { get; set; }
         public int PackagesLifeTime { get; set; }
+        public int NumberOfBackloggedPackages { get; set; }
 
-        public int[] NumberOfBackloggedPackages { get; set; } = new int[Properties.Settings.Default.NumberOfFrames];
-
-        public void AddNumberOfBackloggedPackages(int frame)
+        public int BackloggedPackages()
         {
-            NumberOfBackloggedPackages[frame]++;
+            return Packages - PackagesLeavedSystem;
         }
 
-        public double CalculateAverageNumberOfBackloggedPackages(int frame)
+        public void RegisterNumberOfBackLoggedPackages()
+        {
+            NumberOfBackloggedPackages += Packages - PackagesLeavedSystem;
+        }
+
+        public double AverageOfBackloggedPackages(int frame)
         {
             if (frame > 0)
-                return (double)NumberOfBackloggedPackages.Sum() / frame;
+                return (double)NumberOfBackloggedPackages / frame;
             return 0;
         }
 

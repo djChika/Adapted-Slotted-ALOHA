@@ -161,13 +161,6 @@ namespace Adapted_Slotted_ALOHA
             RepaintPackages(_server.CurrentFrame);
         }
 
-        private void CheckNumberOfBackloggedPackages()
-        {
-            for (int i = 0; i < Default.NumberOfStations; i++)
-                if (_stations[i].IsBacklogged())
-                    _statistics.AddNumberOfBackloggedPackages(_server.CurrentFrame);
-        }
-
         private void DecreaseBacklogTimers()
         {
             for (var i = 0; i < Default.NumberOfStations; i++)
@@ -244,8 +237,8 @@ namespace Adapted_Slotted_ALOHA
             if (_server != null) label1.Text = $"Оценка: {Math.Round(_server.Estimation, 3)}";
             textBox1.Text = $"{_statistics.Packages}";
             textBox2.Text = $"{_statistics.PackagesLeavedSystem}";
-            textBox3.Text = $"{_statistics.Packages - _statistics.PackagesLeavedSystem}";
-            textBox4.Text = $"{Math.Round(_statistics.CalculateAverageNumberOfBackloggedPackages(_server.CurrentFrame))}";
+            textBox3.Text = $"{_statistics.BackloggedPackages()}";
+            textBox4.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(_server.CurrentFrame))}";
             textBox6.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime())}";
         }
 
@@ -267,9 +260,9 @@ namespace Adapted_Slotted_ALOHA
             GeneratePackages();
             GenerateRandomProbabilities();
             UpdateBackloggedText();
-            CheckNumberOfBackloggedPackages();
-            IncreasePackagesLifeTime();
+            _statistics.RegisterNumberOfBackLoggedPackages();
             UpdateInfo();
+            IncreasePackagesLifeTime();
             _server.IncreaseCurrentFrameCounter();
 
         }
@@ -355,10 +348,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void button1_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < _server.CurrentFrame; i++)
-            {
-                _logger.Debug($"Frame#{i}: {_statistics.NumberOfBackloggedPackages[i]}");
-            }
+
         }
     }
 }
