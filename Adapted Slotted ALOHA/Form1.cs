@@ -31,6 +31,7 @@ namespace Adapted_Slotted_ALOHA
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
         private Server _server;
+        private Statistics _statistics;
 
         private void InitializePackagesUI()
         {
@@ -122,6 +123,7 @@ namespace Adapted_Slotted_ALOHA
             Station.Poisson = new Poisson(Default.Lambda / Default.NumberOfStations);
             Station.Random = new Random();
             _server = new Server();
+            _statistics = new Statistics();
         }
 
         private void DestroyObjects()
@@ -129,6 +131,7 @@ namespace Adapted_Slotted_ALOHA
             _server = null;
             Station.Poisson = null;
             Station.Random = null;
+            _statistics = null;
         }
 
         private void GeneratePackages()
@@ -138,7 +141,11 @@ namespace Adapted_Slotted_ALOHA
                 {
                     _stations[i].GeneratePackage();
                     if (_stations[i].IsPackageExist())
+                    {
                         UIBackloggedPackages[i].BackColor = Color.DarkCyan;
+                        _statistics.Packages++;
+                    }
+
                 }
         }
 
@@ -170,6 +177,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         _stations[i].DestroyPackage();
                         UIBackloggedPackages[i].BackColor = Color.Transparent;
+                        _statistics.PackagesLeavedSystem++;
                     }
                 _server.CheckEstimationAfterSuccessfulOrEmpty();
             }
@@ -214,9 +222,20 @@ namespace Adapted_Slotted_ALOHA
             }
         }
 
-        private void UpdateInfo()
+        private void UpdateInfoLabels()
         {
             if (_server != null) label1.Text = $"Оценка: {Math.Round(_server.Estimation, 3)}";
+            label2.Text = $"Пришло: {_statistics.Packages}";
+            label3.Text = $"Покинуло систему: {_statistics.PackagesLeavedSystem}";
+            label4.Text = $"В очереди: {_statistics.Packages - _statistics.PackagesLeavedSystem}";
+        }
+
+        private void CleanInfoLabels()
+        {
+            label1.Text = "Оценка:";
+            label2.Text = "Пришло:";
+            label3.Text = "Покинуло систему:";
+            label4.Text = "В очереди:";
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -228,12 +247,12 @@ namespace Adapted_Slotted_ALOHA
             GenerateRandomProbabilities();
             UpdateBackloggedText();
             _server.IncreaseCurrentFrameCounter();
-            UpdateInfo();
+            UpdateInfoLabels();
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
+            var form2 = new Form2();
             if (form2.ShowDialog() == DialogResult.OK)
             {
                 NextButton.Enabled = true;
@@ -247,6 +266,7 @@ namespace Adapted_Slotted_ALOHA
                 GeneratePackages();
                 GenerateRandomProbabilities();
                 UpdateBackloggedText();
+                UpdateInfoLabels();
             }
         }
 
@@ -265,7 +285,7 @@ namespace Adapted_Slotted_ALOHA
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
             DestroyObjects();
-            label1.Text = "";
+            CleanInfoLabels();
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -307,11 +327,6 @@ namespace Adapted_Slotted_ALOHA
             Default.WidthOfColums = 40;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
-        }
-
-        private void стартToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
