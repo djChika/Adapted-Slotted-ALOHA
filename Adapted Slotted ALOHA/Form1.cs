@@ -242,8 +242,8 @@ namespace Adapted_Slotted_ALOHA
             textBox5.Text = $"{_statistics.Packages}";
             textBox6.Text = $"{_statistics.PackagesLeavedSystem}";
             textBox7.Text = $"{_statistics.BackloggedPackages()}";
-            textBox8.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(_server.CurrentFrame))}";
-            textBox9.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime())}";
+            textBox8.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(_server.CurrentFrame),2)}";
+            textBox9.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime(),2)}";
         }
 
         private void CleanInfo()
