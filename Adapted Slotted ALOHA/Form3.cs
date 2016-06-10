@@ -18,7 +18,7 @@ namespace Adapted_Slotted_ALOHA
             InitializeComponent();
             comboBox1.SelectedIndex = 1;
             comboBox2.SelectedIndex = 4;
-            comboBox3.SelectedIndex = 5;
+            comboBox3.SelectedIndex = 3;
         }
 
         private Server _server;
@@ -163,6 +163,24 @@ namespace Adapted_Slotted_ALOHA
         private void Form3_FormClosing(object sender, FormClosingEventArgs e)
         {
             DestroyObjects();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CleanInfo();
+            groupBox2.Enabled = false;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CleanInfo();
+            groupBox2.Enabled = false;
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CleanInfo();
+            groupBox2.Enabled = false;
         }
     }
 }

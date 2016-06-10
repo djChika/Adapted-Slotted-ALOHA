@@ -177,7 +177,7 @@
             // анализToolStripMenuItem
             // 
             this.анализToolStripMenuItem.Name = "анализToolStripMenuItem";
-            this.анализToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.анализToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.анализToolStripMenuItem.Text = "Анализ";
             this.анализToolStripMenuItem.Click += new System.EventHandler(this.анализToolStripMenuItem_Click);
             // 
@@ -427,9 +427,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(4, 16);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
+            this.label2.Size = new System.Drawing.Size(64, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Пришло:";
+            this.label2.Text = "Поступило:";
             // 
             // tableLayoutPanel1
             // 

@@ -65,7 +65,7 @@
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(16, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(260, 107);
             this.groupBox1.TabIndex = 4;
@@ -102,6 +102,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
             this.comboBox2.TabIndex = 16;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // comboBox1
             // 
@@ -122,15 +123,12 @@
             "5",
             "10",
             "15",
-            "20",
-            "50",
-            "100",
-            "500",
-            "1000"});
+            "20"});
             this.comboBox1.Location = new System.Drawing.Point(127, 22);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 13;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -162,8 +160,6 @@
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
-            "10",
-            "50",
             "100",
             "500",
             "1000",
@@ -172,6 +168,7 @@
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(121, 21);
             this.comboBox3.TabIndex = 18;
+            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -345,9 +342,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(8, 16);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(104, 13);
+            this.label12.Size = new System.Drawing.Size(118, 13);
             this.label12.TabIndex = 0;
-            this.label12.Text = "Пришло в систему:";
+            this.label12.Text = "Поступило в систему:";
             // 
             // Form3
             // 
