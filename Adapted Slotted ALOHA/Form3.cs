@@ -146,13 +146,16 @@ namespace Adapted_Slotted_ALOHA
                 IncreasePackagesLifeTime();
                 _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
                 _server.IncreaseCurrentFrameCounter();
+                progressBar1.Increment(+1);
             }
             groupBox2.Enabled = true;
             MessageBox.Show("Вычисление прошло успешно!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            progressBar1.Value = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            progressBar1.Maximum = Convert.ToInt32(comboBox3.Text);
             DestroyObjects();
             CleanInfo();
             CreateObjects();
@@ -169,18 +172,21 @@ namespace Adapted_Slotted_ALOHA
         {
             CleanInfo();
             groupBox2.Enabled = false;
+            progressBar1.Value = 0;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             CleanInfo();
             groupBox2.Enabled = false;
+            progressBar1.Value = 0;
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             CleanInfo();
             groupBox2.Enabled = false;
+            progressBar1.Value = 0;
         }
     }
 }
