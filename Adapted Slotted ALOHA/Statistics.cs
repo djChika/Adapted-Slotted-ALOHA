@@ -13,6 +13,7 @@ namespace Adapted_Slotted_ALOHA
         public int PackagesLeavedSystem { get; set; }
         public int PackagesLifeTime { get; set; }
         public int NumberOfBackloggedPackages { get; set; }
+        public int NumberOfBackloggedFrames { get; set; }
         public int Collisions { get; set; }
 
         public int BackloggedPackages()
@@ -20,11 +21,13 @@ namespace Adapted_Slotted_ALOHA
             return Packages - PackagesLeavedSystem;
         }
 
-        public double AverageOfBackloggedPackages(int frame)
+        public double AverageOfBackloggedPackages()
         {
+            if (Packages - PackagesLeavedSystem > 0)
+                NumberOfBackloggedFrames++;
             NumberOfBackloggedPackages += Packages - PackagesLeavedSystem;
-            if (frame > 0)
-                return (double)NumberOfBackloggedPackages / frame;
+            if (NumberOfBackloggedFrames > 0)
+                return (double)NumberOfBackloggedPackages / NumberOfBackloggedFrames;
             return 0;
         }
 
