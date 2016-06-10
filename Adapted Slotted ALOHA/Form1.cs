@@ -301,6 +301,9 @@ namespace Adapted_Slotted_ALOHA
             видToolStripMenuItem.Enabled = false;
             создатьToolStripMenuItem.Enabled = true;
             очиститьToolStripMenuItem.Enabled = false;
+            крупныйToolStripMenuItem.Checked = false;
+            среднийToolStripMenuItem.Checked = false;
+            мелкийToolStripMenuItem.Checked = false;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
@@ -354,6 +357,19 @@ namespace Adapted_Slotted_ALOHA
 
         private void анализToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            NextButton.Enabled = false;
+            groupBox1.Enabled = false;
+            видToolStripMenuItem.Enabled = false;
+            создатьToolStripMenuItem.Enabled = true;
+            очиститьToolStripMenuItem.Enabled = false;
+            tableLayoutPanel1.Controls.Clear();
+            tableLayoutPanel2.Controls.Clear();
+            tableLayoutPanel3.Controls.Clear();
+            UIstations.Clear();
+            UIBackloggedPackages.Clear();
+            UIPackages.Clear();
+            DestroyObjects();
+            CleanInfo();
             Form3 form3 = new Form3();
             form3.ShowDialog();
         }
