@@ -40,6 +40,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void DestroyObjects()
         {
+            _stations.Clear();
             _server = null;
             Station.Poisson = null;
             Station.Random = null;
@@ -137,12 +138,13 @@ namespace Adapted_Slotted_ALOHA
         {
             for (int i = 0; i < Convert.ToInt32(comboBox3.Text); i++)
             {
+                GeneratePackages();
+                GenerateRandomProbabilities();
                 SendPackages();
                 CheckCollision();
                 DecreaseBacklogTimers();
-                GeneratePackages();
-                GenerateRandomProbabilities();
                 IncreasePackagesLifeTime();
+                _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
                 _server.IncreaseCurrentFrameCounter();
             }
             groupBox2.Enabled = true;
@@ -154,8 +156,6 @@ namespace Adapted_Slotted_ALOHA
             DestroyObjects();
             CleanInfo();
             CreateObjects();
-            GeneratePackages();
-            GenerateRandomProbabilities();
             Calculation();
             UpdateInfo();
         }

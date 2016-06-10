@@ -158,8 +158,7 @@
             "500",
             "1000",
             "5000",
-            "10000",
-            "100000"});
+            "10000"});
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
@@ -168,10 +167,7 @@
             "100",
             "500",
             "1000",
-            "5000",
-            "10000",
-            "50000",
-            "100000"});
+            "5000"});
             this.comboBox3.Location = new System.Drawing.Point(127, 75);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(121, 21);

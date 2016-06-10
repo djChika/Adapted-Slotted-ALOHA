@@ -21,11 +21,15 @@ namespace Adapted_Slotted_ALOHA
             return Packages - PackagesLeavedSystem;
         }
 
-        public double AverageOfBackloggedPackages()
+        public void IncreaseNumberOfBackloggedFramesAndPackages()
         {
             if (Packages - PackagesLeavedSystem > 0)
                 NumberOfBackloggedFrames++;
             NumberOfBackloggedPackages += Packages - PackagesLeavedSystem;
+        }
+
+        public double AverageOfBackloggedPackages()
+        {
             if (NumberOfBackloggedFrames > 0)
                 return (double)NumberOfBackloggedPackages / NumberOfBackloggedFrames;
             return 0;

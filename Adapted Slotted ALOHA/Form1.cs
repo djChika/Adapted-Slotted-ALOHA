@@ -127,6 +127,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void DestroyObjects()
         {
+            _stations.Clear();
             _server = null;
             Station.Poisson = null;
             Station.Random = null;
@@ -266,6 +267,7 @@ namespace Adapted_Slotted_ALOHA
             DecreaseBacklogTimers();
             GeneratePackages();
             GenerateRandomProbabilities();
+            _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
             UpdateBackloggedText();
             UpdateInfo();
             IncreasePackagesLifeTime();
@@ -302,7 +304,6 @@ namespace Adapted_Slotted_ALOHA
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
-            _stations.Clear();
             UIstations.Clear();
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
