@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using Adapted_Slotted_ALOHA.Properties;
 using MathNet.Numerics.Distributions;
-using static Adapted_Slotted_ALOHA.Properties.Settings;
 using NLog;
 
 namespace Adapted_Slotted_ALOHA
@@ -15,7 +15,7 @@ namespace Adapted_Slotted_ALOHA
         public Form1()
         {
             InitializeComponent();
-            показыватьНомераФреймовToolStripMenuItem.Checked = Default.IsFramesNumbersTextEnabled;
+            показыватьНомераФреймовToolStripMenuItem.Checked = Settings.Default.IsFramesNumbersTextEnabled;
             tableLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel2.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel3.BorderStyle = BorderStyle.FixedSingle;
@@ -25,7 +25,7 @@ namespace Adapted_Slotted_ALOHA
             мелкийToolStripMenuItem.CheckOnClick = true;
         }
 
-        List<Label> _stationsUI = new List<Label>();
+        List<Label> UIstations = new List<Label>();
         List<Label> UIBackloggedPackages = new List<Label>();
         List<List<Label>> UIPackages = new List<List<Label>>();
         List<Station> _stations = new List<Station>();
@@ -35,19 +35,19 @@ namespace Adapted_Slotted_ALOHA
         private void InitializePackagesUI()
         {
             tableLayoutPanel3.Controls.Clear();
-            tableLayoutPanel3.RowCount = Default.NumberOfStations;
-            tableLayoutPanel3.ColumnCount = Default.NumberOfColums;
+            tableLayoutPanel3.RowCount = Settings.Default.NumberOfStations;
+            tableLayoutPanel3.ColumnCount = Settings.Default.NumberOfColums;
             UIPackages.Clear();
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
                 var stationPackages = new List<Label>();
-                for (var j = 0; j < Default.NumberOfColums; j++)
+                for (var j = 0; j < Settings.Default.NumberOfColums; j++)
                 {
                     var label = new Label
                     {
                         BorderStyle = BorderStyle.FixedSingle,
                         Height = 30,
-                        Width = Default.WidthOfColums,
+                        Width = Settings.Default.WidthOfColums,
                         Margin = new Padding(0, 0, 10, 3),
                         BackColor = Color.Transparent,
                         TextAlign = ContentAlignment.MiddleCenter
@@ -56,9 +56,9 @@ namespace Adapted_Slotted_ALOHA
                 }
                 UIPackages.Add(stationPackages);
             }
-            for (var ii = 0; ii < Default.NumberOfStations; ii++)
+            for (var ii = 0; ii < Settings.Default.NumberOfStations; ii++)
             {
-                for (var jj = 0; jj < Default.NumberOfColums; jj++)
+                for (var jj = 0; jj < Settings.Default.NumberOfColums; jj++)
                 {
                     tableLayoutPanel3.Controls.Add(UIPackages[ii][jj]);
                 }
@@ -68,8 +68,8 @@ namespace Adapted_Slotted_ALOHA
         private void InitializeStationsUI()
         {
             tableLayoutPanel1.Controls.Clear();
-            tableLayoutPanel1.RowCount = Default.NumberOfStations;
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            tableLayoutPanel1.RowCount = Settings.Default.NumberOfStations;
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
                 var label = new Label
                 {
@@ -80,8 +80,8 @@ namespace Adapted_Slotted_ALOHA
                     Font = new Font(Font, FontStyle.Bold),
                     Text = $"#{i+1}"
                 };
-                _stationsUI.Add(label);
-                tableLayoutPanel1.Controls.Add(_stationsUI[i]);
+                UIstations.Add(label);
+                tableLayoutPanel1.Controls.Add(UIstations[i]);
 
             }
         }
@@ -89,8 +89,8 @@ namespace Adapted_Slotted_ALOHA
         private void InitializeBackloggedPackagesUI()
         {
             tableLayoutPanel2.Controls.Clear();
-            tableLayoutPanel2.RowCount = Default.NumberOfStations;
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            tableLayoutPanel2.RowCount = Settings.Default.NumberOfStations;
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
                 var label = new Label
                 {
@@ -119,7 +119,7 @@ namespace Adapted_Slotted_ALOHA
                 var station = new Station();
                 _stations.Add(station);
             }
-            Station.Poisson = new Poisson(Default.Lambda / Default.NumberOfStations);
+            Station.Poisson = new Poisson(Settings.Default.Lambda /Settings.Default.NumberOfStations);
             Station.Random = new Random();
             _server = new Server();
             _statistics = new Statistics();
@@ -135,7 +135,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void GeneratePackages()
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                 if (!_stations[i].IsPackageExist())
                 {
                     _stations[i].GeneratePackage();
@@ -150,26 +150,26 @@ namespace Adapted_Slotted_ALOHA
 
         private void GenerateRandomProbabilities()
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                 _stations[i].GenerateRandomProbability();
         }
 
         private void SendPackages()
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                 _server.Frames[i, _server.CurrentFrame] = _stations[i].Package(_server.Estimation);
             RepaintPackages(_server.CurrentFrame);
         }
 
         private void DecreaseBacklogTimers()
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                 _stations[i].DecreaseBacklogTime();
         }
 
         public void IncreasePackagesLifeTime()
         {
-            for (int i = 0; i < Default.NumberOfStations; i++)
+            for (int i = 0; i < Settings.Default.NumberOfStations; i++)
             {
                 if (_stations[i].IsPackageExist())
                     _stations[i].IncreaseLifeTime();
@@ -180,7 +180,7 @@ namespace Adapted_Slotted_ALOHA
         {
             if (!_server.IsCollision(_server.CurrentFrame))
             {
-                for (var i = 0; i < Default.NumberOfStations; i++)
+                for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                     if (_server.IsPackageSent(i, _server.CurrentFrame))
                     {
                         _stations[i].DestroyPackage();
@@ -193,7 +193,7 @@ namespace Adapted_Slotted_ALOHA
             }
             else if (_server.IsCollision(_server.CurrentFrame))
             {
-                for (var i = 0; i < Default.NumberOfStations; i++)
+                for (var i = 0; i < Settings.Default.NumberOfStations; i++)
                     if (_server.IsPackageSent(i, _server.CurrentFrame))
                     {
                         _stations[i].GenerateBacklogTime();
@@ -206,29 +206,29 @@ namespace Adapted_Slotted_ALOHA
 
         private void RepaintPackages(int selectedFrame)
         {
-            for (var i = 0; i < Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
-                for (var j = 0; j < Default.NumberOfStations; j++)
+            for (var i = 0; i < Settings.Default.NumberOfColums && selectedFrame >= 0; i++, selectedFrame--)
+                for (var j = 0; j < Settings.Default.NumberOfStations; j++)
                 {
                     UIPackages[j][i].BackColor = Color.Transparent;
                     if (_server.IsPackageSent(j, selectedFrame))
                     {
                         UIPackages[j][i].BackColor = _server.IsCollision(selectedFrame) ? Color.DarkRed : Color.LimeGreen;
                     }
-                    UIPackages[j][i].Text = Default.IsFramesNumbersTextEnabled ? selectedFrame.ToString() : "";
+                    UIPackages[j][i].Text = Settings.Default.IsFramesNumbersTextEnabled ? selectedFrame.ToString() : "";
                 }
         }
 
         private void UpdateBackloggedText()
         {
-            for (var i = 0; i < Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
-                _stationsUI[i].BackColor = Color.Empty;
+                UIstations[i].BackColor = Color.Empty;
                 UIBackloggedPackages[i].Text = "";
                 if (_stations[i].IsPackageExist())
                 {
                     UIBackloggedPackages[i].Text = _stations[i].BacklogTime().ToString();
                     if (!_stations[i].IsBacklogged() && _stations[i].IsAllowToSend(_server.Estimation))
-                        _stationsUI[i].BackColor = Color.Green;
+                        UIstations[i].BackColor = Color.Green;
                 }
             }
         }
@@ -238,7 +238,7 @@ namespace Adapted_Slotted_ALOHA
             textBox1.Text = $"{_server.CurrentFrame}";
             textBox2.Text = $"{Math.Round(_server.Estimation, 3)}";
             textBox3.Text = $"{_statistics.Collisions}";
-            textBox4.Text = $"{Default.Lambda}";
+            textBox4.Text = $"{Settings.Default.Lambda}";
             textBox5.Text = $"{_statistics.Packages}";
             textBox6.Text = $"{_statistics.PackagesLeavedSystem}";
             textBox7.Text = $"{_statistics.BackloggedPackages()}";
@@ -285,7 +285,7 @@ namespace Adapted_Slotted_ALOHA
                 видToolStripMenuItem.Enabled = true;
                 крупныйToolStripMenuItem.Checked = true;
                 InitializeUI();
-                CreateObjects(Default.NumberOfStations);
+                CreateObjects(Settings.Default.NumberOfStations);
                 GeneratePackages();
                 GenerateRandomProbabilities();
                 UpdateBackloggedText();
@@ -304,7 +304,7 @@ namespace Adapted_Slotted_ALOHA
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
             _stations.Clear();
-            _stationsUI.Clear();
+            UIstations.Clear();
             UIBackloggedPackages.Clear();
             UIPackages.Clear();
             DestroyObjects();
@@ -318,7 +318,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void показыватьНомераФреймовToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            Default.IsFramesNumbersTextEnabled = показыватьНомераФреймовToolStripMenuItem.Checked;
+            Settings.Default.IsFramesNumbersTextEnabled = показыватьНомераФреймовToolStripMenuItem.Checked;
             RepaintPackages(_server.CurrentFrame - 1);
         }
 
@@ -326,8 +326,8 @@ namespace Adapted_Slotted_ALOHA
         {
             среднийToolStripMenuItem.Checked = false;
             мелкийToolStripMenuItem.Checked = false;
-            Default.NumberOfColums = 4;
-            Default.WidthOfColums = 140;
+            Settings.Default.NumberOfColums = 4;
+            Settings.Default.WidthOfColums = 140;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
         }
@@ -336,8 +336,8 @@ namespace Adapted_Slotted_ALOHA
         {
             крупныйToolStripMenuItem.Checked = false;
             мелкийToolStripMenuItem.Checked = false;
-            Default.NumberOfColums = 8;
-            Default.WidthOfColums = 65;
+            Settings.Default.NumberOfColums = 8;
+            Settings.Default.WidthOfColums = 65;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
         }
@@ -346,8 +346,8 @@ namespace Adapted_Slotted_ALOHA
         {
             крупныйToolStripMenuItem.Checked = false;
             среднийToolStripMenuItem.Checked = false;
-            Default.NumberOfColums = 12;
-            Default.WidthOfColums = 40;
+            Settings.Default.NumberOfColums = 12;
+            Settings.Default.WidthOfColums = 40;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
         }
