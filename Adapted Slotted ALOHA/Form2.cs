@@ -15,19 +15,16 @@ namespace Adapted_Slotted_ALOHA
         public Form2()
         {
             InitializeComponent();
-            comboBox1.SelectedIndex = 1;
-            comboBox2.SelectedIndex = 3;
-            comboBox3.SelectedIndex = 6;
+            comboBox1.SelectedIndex = 4;
+            comboBox2.SelectedIndex = 4;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(comboBox1.Text) && !string.IsNullOrEmpty(comboBox2.Text) &&
-                !string.IsNullOrEmpty(comboBox3.Text))
+            if (!string.IsNullOrEmpty(comboBox1.Text) && !string.IsNullOrEmpty(comboBox2.Text))
             {
                 Properties.Settings.Default.NumberOfStations = Convert.ToInt32(comboBox1.Text);
                 Properties.Settings.Default.Lambda = Convert.ToDouble(comboBox2.Text);
-                Properties.Settings.Default.NumberOfFrames = Convert.ToInt32(comboBox3.Text);
                 DialogResult = DialogResult.OK;
                 Close();
             }

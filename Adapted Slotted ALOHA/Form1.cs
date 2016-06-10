@@ -78,7 +78,7 @@ namespace Adapted_Slotted_ALOHA
                     Margin = new Padding(0, 0, 3, 3),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font(Font, FontStyle.Bold),
-                    Text = $"#{i}"
+                    Text = $"#{i+1}"
                 };
                 _stationsUI.Add(label);
                 tableLayoutPanel1.Controls.Add(_stationsUI[i]);
@@ -283,7 +283,6 @@ namespace Adapted_Slotted_ALOHA
                 очиститьToolStripMenuItem.Enabled = true;
                 создатьToolStripMenuItem.Enabled = false;
                 видToolStripMenuItem.Enabled = true;
-                анализToolStripMenuItem.Enabled = true;
                 крупныйToolStripMenuItem.Checked = true;
                 InitializeUI();
                 CreateObjects(Default.NumberOfStations);
@@ -301,7 +300,6 @@ namespace Adapted_Slotted_ALOHA
             видToolStripMenuItem.Enabled = false;
             создатьToolStripMenuItem.Enabled = true;
             очиститьToolStripMenuItem.Enabled = false;
-            анализToolStripMenuItem.Enabled = false;
             tableLayoutPanel1.Controls.Clear();
             tableLayoutPanel2.Controls.Clear();
             tableLayoutPanel3.Controls.Clear();
@@ -352,6 +350,12 @@ namespace Adapted_Slotted_ALOHA
             Default.WidthOfColums = 40;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
+        }
+
+        private void анализToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            form3.ShowDialog();
         }
     }
 }

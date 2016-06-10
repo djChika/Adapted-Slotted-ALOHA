@@ -176,10 +176,10 @@
             // 
             // анализToolStripMenuItem
             // 
-            this.анализToolStripMenuItem.Enabled = false;
             this.анализToolStripMenuItem.Name = "анализToolStripMenuItem";
             this.анализToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.анализToolStripMenuItem.Text = "Анализ";
+            this.анализToolStripMenuItem.Click += new System.EventHandler(this.анализToolStripMenuItem_Click);
             // 
             // tableLayoutPanel3
             // 
