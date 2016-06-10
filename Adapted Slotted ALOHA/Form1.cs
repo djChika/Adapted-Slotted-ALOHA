@@ -78,7 +78,7 @@ namespace Adapted_Slotted_ALOHA
                     Margin = new Padding(0, 0, 3, 3),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font(Font, FontStyle.Bold),
-                    Text = $"#{i+1}"
+                    Text = $"#{i + 1}"
                 };
                 UIstations.Add(label);
                 tableLayoutPanel1.Controls.Add(UIstations[i]);
@@ -119,7 +119,7 @@ namespace Adapted_Slotted_ALOHA
                 var station = new Station();
                 _stations.Add(station);
             }
-            Station.Poisson = new Poisson(Settings.Default.Lambda /Settings.Default.NumberOfStations);
+            Station.Poisson = new Poisson(Settings.Default.Lambda / Settings.Default.NumberOfStations);
             Station.Random = new Random();
             _server = new Server();
             _statistics = new Statistics();
@@ -242,8 +242,8 @@ namespace Adapted_Slotted_ALOHA
             textBox5.Text = $"{_statistics.Packages}";
             textBox6.Text = $"{_statistics.PackagesLeavedSystem}";
             textBox7.Text = $"{_statistics.BackloggedPackages()}";
-            textBox8.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(),2)}";
-            textBox9.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime(),2)}";
+            textBox8.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(), 2)}";
+            textBox9.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime(), 2)}";
         }
 
         private void CleanInfo()
@@ -270,7 +270,6 @@ namespace Adapted_Slotted_ALOHA
             UpdateInfo();
             IncreasePackagesLifeTime();
             _server.IncreaseCurrentFrameCounter();
-
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
