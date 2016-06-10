@@ -198,6 +198,7 @@ namespace Adapted_Slotted_ALOHA
                     {
                         _stations[i].GenerateBacklogTime();
                         UIBackloggedPackages[i].BackColor = Color.IndianRed;
+                        _statistics.Collisions++;
                     }
                 _server.CheckEstimationAfterConflict();
             }
@@ -234,12 +235,15 @@ namespace Adapted_Slotted_ALOHA
 
         private void UpdateInfo()
         {
-            if (_server != null) label1.Text = $"Оценка: {Math.Round(_server.Estimation, 3)}";
-            textBox1.Text = $"{_statistics.Packages}";
-            textBox2.Text = $"{_statistics.PackagesLeavedSystem}";
-            textBox3.Text = $"{_statistics.BackloggedPackages()}";
-            textBox4.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(_server.CurrentFrame))}";
-            textBox6.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime())}";
+            textBox1.Text = $"{_server.CurrentFrame}";
+            textBox2.Text = $"{Math.Round(_server.Estimation, 3)}";
+            textBox3.Text = $"{_statistics.Collisions}";
+            textBox4.Text = $"{Default.Lambda}";
+            textBox5.Text = $"{_statistics.Packages}";
+            textBox6.Text = $"{_statistics.PackagesLeavedSystem}";
+            textBox7.Text = $"{_statistics.BackloggedPackages()}";
+            textBox8.Text = $"{Math.Round(_statistics.AverageOfBackloggedPackages(_server.CurrentFrame))}";
+            textBox9.Text = $"{Math.Round(_statistics.AverageOfPackagesLifeTime())}";
         }
 
         private void CleanInfo()
@@ -250,6 +254,9 @@ namespace Adapted_Slotted_ALOHA
             textBox4.Clear();
             textBox5.Clear();
             textBox6.Clear();
+            textBox7.Clear();
+            textBox8.Clear();
+            textBox9.Clear();
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -260,7 +267,6 @@ namespace Adapted_Slotted_ALOHA
             GeneratePackages();
             GenerateRandomProbabilities();
             UpdateBackloggedText();
-            _statistics.RegisterNumberOfBackLoggedPackages();
             UpdateInfo();
             IncreasePackagesLifeTime();
             _server.IncreaseCurrentFrameCounter();
@@ -273,6 +279,7 @@ namespace Adapted_Slotted_ALOHA
             if (form2.ShowDialog() == DialogResult.OK)
             {
                 NextButton.Enabled = true;
+                groupBox1.Enabled = true;
                 очиститьToolStripMenuItem.Enabled = true;
                 создатьToolStripMenuItem.Enabled = false;
                 видToolStripMenuItem.Enabled = true;
@@ -290,6 +297,7 @@ namespace Adapted_Slotted_ALOHA
         private void очиститьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextButton.Enabled = false;
+            groupBox1.Enabled = false;
             видToolStripMenuItem.Enabled = false;
             создатьToolStripMenuItem.Enabled = true;
             очиститьToolStripMenuItem.Enabled = false;
@@ -344,11 +352,6 @@ namespace Adapted_Slotted_ALOHA
             Default.WidthOfColums = 40;
             InitializePackagesUI();
             RepaintPackages(_server.CurrentFrame - 1);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

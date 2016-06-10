@@ -13,19 +13,16 @@ namespace Adapted_Slotted_ALOHA
         public int PackagesLeavedSystem { get; set; }
         public int PackagesLifeTime { get; set; }
         public int NumberOfBackloggedPackages { get; set; }
+        public int Collisions { get; set; }
 
         public int BackloggedPackages()
         {
             return Packages - PackagesLeavedSystem;
         }
 
-        public void RegisterNumberOfBackLoggedPackages()
-        {
-            NumberOfBackloggedPackages += Packages - PackagesLeavedSystem;
-        }
-
         public double AverageOfBackloggedPackages(int frame)
         {
+            NumberOfBackloggedPackages += Packages - PackagesLeavedSystem;
             if (frame > 0)
                 return (double)NumberOfBackloggedPackages / frame;
             return 0;
