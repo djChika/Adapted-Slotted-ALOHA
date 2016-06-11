@@ -5,13 +5,11 @@ using System.Drawing;
 using System.Windows.Forms;
 using Adapted_Slotted_ALOHA.Properties;
 using MathNet.Numerics.Distributions;
-using NLog;
 
 namespace Adapted_Slotted_ALOHA
 {
     internal partial class Form1 : Form
     {
-        private Logger _logger = LogManager.GetCurrentClassLogger();
         public Form1()
         {
             InitializeComponent();
@@ -170,7 +168,7 @@ namespace Adapted_Slotted_ALOHA
 
         public void IncreasePackagesLifeTime()
         {
-            for (int i = 0; i < Settings.Default.NumberOfStations; i++)
+            for (var i = 0; i < Settings.Default.NumberOfStations; i++)
             {
                 if (_stations[i].IsPackageExist())
                     _stations[i].IncreaseLifeTime();
@@ -370,7 +368,7 @@ namespace Adapted_Slotted_ALOHA
             UIPackages.Clear();
             DestroyObjects();
             CleanInfo();
-            Form3 form3 = new Form3();
+            var form3 = new Form3();
             form3.ShowDialog();
         }
     }

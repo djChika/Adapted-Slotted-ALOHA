@@ -81,7 +81,7 @@ namespace Adapted_Slotted_ALOHA
 
         public void IncreasePackagesLifeTime()
         {
-            for (int i = 0; i < Convert.ToInt32(comboBox1.Text); i++)
+            for (var i = 0; i < Convert.ToInt32(comboBox1.Text); i++)
             {
                 if (_stations[i].IsPackageExist())
                     _stations[i].IncreaseLifeTime();
@@ -136,7 +136,7 @@ namespace Adapted_Slotted_ALOHA
 
         private void Calculation()
         {
-            for (int i = 0; i < Convert.ToInt32(comboBox3.Text); i++)
+            for (var i = 0; i < Convert.ToInt32(comboBox3.Text); i++)
             {
                 GeneratePackages();
                 GenerateRandomProbabilities();
