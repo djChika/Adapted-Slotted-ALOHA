@@ -197,8 +197,8 @@ namespace Adapted_Slotted_ALOHA
                     {
                         _stations[i].GenerateBacklogTime();
                         UIBackloggedPackages[i].BackColor = Color.IndianRed;
-                        _statistics.Collisions++;
                     }
+                _statistics.Collisions++;
                 _server.CheckEstimationAfterConflict();
             }
         }

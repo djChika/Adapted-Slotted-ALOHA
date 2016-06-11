@@ -106,10 +106,8 @@ namespace Adapted_Slotted_ALOHA
             {
                 for (var i = 0; i < Convert.ToInt32(comboBox1.Text); i++)
                     if (_server.IsPackageSent(i, _server.CurrentFrame))
-                    {
                         _stations[i].GenerateBacklogTime();
-                        _statistics.Collisions++;
-                    }
+                _statistics.Collisions++;
                 _server.CheckEstimationAfterConflict();
             }
         }
