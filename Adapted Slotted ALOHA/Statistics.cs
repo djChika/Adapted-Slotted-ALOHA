@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Adapted_Slotted_ALOHA
+﻿namespace Adapted_Slotted_ALOHA
 {
     class Statistics
     {

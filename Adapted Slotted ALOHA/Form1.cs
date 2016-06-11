@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Adapted_Slotted_ALOHA.Properties;
@@ -185,8 +184,8 @@ namespace Adapted_Slotted_ALOHA
                         _stations[i].DestroyPackage();
                         _statistics.PackagesLifeTime += _stations[i].LifeTime;
                         _stations[i].ResetLifeTime();
-                        UIBackloggedPackages[i].BackColor = Color.Transparent;
                         _statistics.PackagesLeavedSystem++;
+                        UIBackloggedPackages[i].BackColor = Color.Transparent;
                     }
                 _server.CheckEstimationAfterSuccessfulOrEmpty();
             }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Forms;
-using Adapted_Slotted_ALOHA.Properties;
 using MathNet.Numerics.Distributions;
 
 namespace Adapted_Slotted_ALOHA
