@@ -260,6 +260,7 @@ namespace Adapted_Slotted_ALOHA
         private void NextButton_Click(object sender, EventArgs e)
         {
             SendPackages();
+            IncreasePackagesLifeTime();
             CheckCollision();
             DecreaseBacklogTimers();
             GeneratePackages();
@@ -267,7 +268,7 @@ namespace Adapted_Slotted_ALOHA
             _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
             UpdateBackloggedText();
             UpdateInfo();
-            IncreasePackagesLifeTime();
+            
             _server.IncreaseCurrentFrameCounter();
         }
 

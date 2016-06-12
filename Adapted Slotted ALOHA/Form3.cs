@@ -133,9 +133,9 @@ namespace Adapted_Slotted_ALOHA
                 GeneratePackages();
                 GenerateRandomProbabilities();
                 SendPackages();
+                IncreasePackagesLifeTime();
                 CheckCollision();
                 DecreaseBacklogTimers();
-                IncreasePackagesLifeTime();
                 _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
                 _server.IncreaseCurrentFrameCounter();
                 progressBar1.Increment(+1);
