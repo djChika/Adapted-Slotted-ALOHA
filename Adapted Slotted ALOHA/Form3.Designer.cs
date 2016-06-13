@@ -89,7 +89,8 @@
             "500",
             "1000",
             "5000",
-            "10000"});
+            "10000",
+            "50000"});
             this.comboBox3.Location = new System.Drawing.Point(127, 75);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(121, 21);
@@ -156,7 +157,9 @@
             "5",
             "10",
             "15",
-            "20"});
+            "20",
+            "50",
+            "100"});
             this.comboBox1.Location = new System.Drawing.Point(127, 22);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);

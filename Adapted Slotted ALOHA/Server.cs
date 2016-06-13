@@ -4,7 +4,7 @@ namespace Adapted_Slotted_ALOHA
 {
     internal class Server
     {
-        public int[,] Frames { get; set; } = new int[1000, 10000];
+        public int[,] Frames { get; set; } = new int[1000, 50000];
         public int CurrentFrame { get; set; }
         public void IncreaseCurrentFrameCounter()
         {

@@ -141,7 +141,7 @@ namespace Adapted_Slotted_ALOHA
                 progressBar1.Increment(+1);
             }
             groupBox2.Enabled = true;
-            MessageBox.Show("Вычисление прошло успешно!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Анализ прошел успешно!", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             progressBar1.Value = 0;
         }
 
