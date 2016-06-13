@@ -85,13 +85,13 @@ namespace Adapted_Slotted_ALOHA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100000")]
-        public int NumberOfFramesForManualMode {
+        [global::System.Configuration.DefaultSettingValueAttribute("50000")]
+        public int MaxNumberOfFrames {
             get {
-                return ((int)(this["NumberOfFramesForManualMode"]));
+                return ((int)(this["MaxNumberOfFrames"]));
             }
             set {
-                this["NumberOfFramesForManualMode"] = value;
+                this["MaxNumberOfFrames"] = value;
             }
         }
     }

@@ -259,17 +259,19 @@ namespace Adapted_Slotted_ALOHA
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            SendPackages();
-            IncreasePackagesLifeTime();
-            CheckCollision();
-            DecreaseBacklogTimers();
-            GeneratePackages();
-            GenerateRandomProbabilities();
-            _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
-            UpdateBackloggedText();
-            UpdateInfo();
-            
-            _server.IncreaseCurrentFrameCounter();
+            if (_server.CurrentFrame < Settings.Default.MaxNumberOfFrames)
+            {
+                SendPackages();
+                IncreasePackagesLifeTime();
+                CheckCollision();
+                DecreaseBacklogTimers();
+                GeneratePackages();
+                GenerateRandomProbabilities();
+                _statistics.IncreaseNumberOfBackloggedFramesAndPackages();
+                UpdateBackloggedText();
+                UpdateInfo();
+                _server.IncreaseCurrentFrameCounter();
+            }
         }
 
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)

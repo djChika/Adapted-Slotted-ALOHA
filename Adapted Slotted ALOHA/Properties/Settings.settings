@@ -17,8 +17,8 @@
     <Setting Name="Lambda" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.2</Value>
     </Setting>
-    <Setting Name="NumberOfFramesForManualMode" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100000</Value>
+    <Setting Name="MaxNumberOfFrames" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50000</Value>
     </Setting>
   </Settings>
 </SettingsFile>
